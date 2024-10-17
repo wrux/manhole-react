@@ -1,5 +1,17 @@
 import { defineQuery } from "next-sanity";
 
+// const imageFragment = `{
+//   ...,
+//   asset -> {
+//     ...,
+//     "alt": altText,
+//     metadata {
+//       lqip,
+//       dimensions
+//     },
+//   },
+// }`;
+
 export const POST_TEASER_QUERY = defineQuery(`
   *[_type=="post"]|order(_createdAt desc)[0...$limit] {
     _id,
@@ -7,7 +19,17 @@ export const POST_TEASER_QUERY = defineQuery(`
     _type,
     _createdAt,
     _updatedAt,
-    mainImage,
+    mainImage {
+      ...,
+      asset -> {
+        ...,
+        "alt": altText,
+        metadata {
+          lqip,
+          dimensions
+        },
+      },
+    },
     "slug": slug.current,
     title,
   }

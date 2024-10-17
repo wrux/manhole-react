@@ -1,29 +1,27 @@
-// import Image from "next/image";
-
-import Link from "next/link";
-import { Button } from "~/components/ui/button";
+import PostTeaser from "~/components/ui/common/post-teaser";
+import { typographyVariants } from "~/components/ui/typography";
+import { cn } from "~/lib/utils";
 import { client } from "~/sanity/lib/client";
 import { POST_TEASER_QUERY } from "~/sanity/lib/queries";
 
 export default async function Home() {
   const posts = await client.fetch(POST_TEASER_QUERY, {
-    limit: 9,
+    limit: 99999,
   });
 
   return (
-    <div>
-      <h1>Homepage</h1>
+    <div className="">
+      <h1 className={cn(typographyVariants({ variant: "h1" }))}>Homepage</h1>
 
-      <ul className="space-y-8">
+      <ul className="grid gap-4 lg:gap-6 grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {posts.map((post) => (
-          <article key={post._id}>
-            <h2>
-              <Link href={`/posts/${post.slug}`}>{post.title}</Link>
-            </h2>
-            <Button asChild>
-              <Link href={`/posts/${post.slug}`}>View Post</Link>
-            </Button>
-          </article>
+          <PostTeaser
+            key={post._id}
+            title={post.title}
+            slug={post.slug}
+            mainImage={post?.mainImage}
+            sizes="(max-width: 1023px) calc(50vw - 1rem), (max-width: 1279px) calc(33.33vw - 3rem), calc(25vw - 4.5rem)"
+          />
         ))}
       </ul>
     </div>

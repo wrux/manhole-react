@@ -217,7 +217,7 @@ export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./src/sanity/lib/queries.ts
 // Variable: POST_TEASER_QUERY
-// Query: *[_type=="post"]|order(_createdAt desc)[0...$limit] {    _id,    _rev,    _type,    _createdAt,    _updatedAt,    mainImage,    "slug": slug.current,    title,  }
+// Query: *[_type=="post"]|order(_createdAt desc)[0...$limit] {    _id,    _rev,    _type,    _createdAt,    _updatedAt,    mainImage {      ...,      asset -> {        ...,        "alt": altText,        metadata {          lqip,          dimensions        },      },    },    "slug": slug.current,    title,  }
 export type POST_TEASER_QUERYResult = Array<{
   _id: string;
   _rev: string;
@@ -225,12 +225,32 @@ export type POST_TEASER_QUERYResult = Array<{
   _createdAt: string;
   _updatedAt: string;
   mainImage: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
+    asset: {
+      _id: string;
+      _type: "sanity.imageAsset";
+      _createdAt: string;
+      _updatedAt: string;
+      _rev: string;
+      originalFilename?: string;
+      label?: string;
+      title?: string;
+      description?: string;
+      altText?: string;
+      sha1hash?: string;
+      extension?: string;
+      mimeType?: string;
+      size?: number;
+      assetId?: string;
+      uploadId?: string;
+      path?: string;
+      url?: string;
+      metadata: {
+        lqip: string | null;
+        dimensions: SanityImageDimensions | null;
+      } | null;
+      source?: SanityAssetSourceData;
+      alt: string | null;
+    } | null;
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
     _type: "image";
@@ -304,7 +324,7 @@ export type COUNTRY_BY_SLUG_QUERYResult = {
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
-    "\n  *[_type==\"post\"]|order(_createdAt desc)[0...$limit] {\n    _id,\n    _rev,\n    _type,\n    _createdAt,\n    _updatedAt,\n    mainImage,\n    \"slug\": slug.current,\n    title,\n  }\n": POST_TEASER_QUERYResult;
+    "\n  *[_type==\"post\"]|order(_createdAt desc)[0...$limit] {\n    _id,\n    _rev,\n    _type,\n    _createdAt,\n    _updatedAt,\n    mainImage {\n      ...,\n      asset -> {\n        ...,\n        \"alt\": altText,\n        metadata {\n          lqip,\n          dimensions\n        },\n      },\n    },\n    \"slug\": slug.current,\n    title,\n  }\n": POST_TEASER_QUERYResult;
     "\n  *[_type==\"post\"].slug.current\n": POST_SLUG_QUERYResult;
     "\n  *[_type==\"post\" && slug.current == $slug][0] {\n    _id,\n    _rev,\n    _type,\n    _createdAt,\n    _updatedAt,\n    mainImage,\n    \"slug\": slug.current,\n    title,\n  }\n": POST_BY_SLUG_QUERYResult;
     "\n  *[_type == \"location\" && type == \"country\"].slug.current\n": COUNTRY_SLUG_QUERYResult;

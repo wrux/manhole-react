@@ -49,3 +49,42 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+@layer utilities {
+  .link {
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .link-underline {
+    text-decoration: underline;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  .link,
+  .link-underline {
+    text-underline-position: under;
+  }
+
+  .link-box {
+    position: relative;
+
+    .link-overlay:before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+    }
+
+    a:not(.link-overlay) {
+      position: relative;
+      z-index: 2;
+    }
+  }
+}
