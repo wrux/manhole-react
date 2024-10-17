@@ -204,6 +204,7 @@ export type Location = {
   nameLocalised?: string;
   type?: 'country' | 'city';
   slug?: Slug;
+  emoji?: string;
   countryCode?: string;
 };
 
@@ -231,13 +232,26 @@ export type AllSanitySchemaTypes =
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./src/sanity/lib/queries.ts
 // Variable: POST_TEASER_QUERY
-// Query: *[_type=="post"]|order(_createdAt desc)[0...$limit] {    _id,    _rev,    _type,    _createdAt,    _updatedAt,    mainImage {      ...,      asset -> {        ...,        "alt": altText,        metadata {          lqip,          dimensions        },      },    },    "slug": slug.current,    title,  }
+// Query: *[_type=="post"]|order(_createdAt desc)[0...$limit] {    _id,    _rev,    _type,    _createdAt,    _updatedAt,    locations[]-> {      _id,      _rev,      _type,      _createdAt,      _updatedAt,      name,      nameLocalised,      type,      emoji,      countryCode,      "slug": slug.current,    },    mainImage {      ...,      asset -> {        ...,        "alt": altText,        metadata {          lqip,          dimensions        },      },    },    "slug": slug.current,    title,  }
 export type POST_TEASER_QUERYResult = Array<{
   _id: string;
   _rev: string;
   _type: 'post';
   _createdAt: string;
   _updatedAt: string;
+  locations: Array<{
+    _id: string;
+    _rev: string;
+    _type: 'location';
+    _createdAt: string;
+    _updatedAt: string;
+    name: string | null;
+    nameLocalised: string | null;
+    type: 'city' | 'country' | null;
+    emoji: string | null;
+    countryCode: string | null;
+    slug: string | null;
+  }> | null;
   mainImage: {
     asset: {
       _id: string;
@@ -338,7 +352,7 @@ export type COUNTRY_BY_SLUG_QUERYResult = {
 import '@sanity/client';
 declare module '@sanity/client' {
   interface SanityQueries {
-    '\n  *[_type=="post"]|order(_createdAt desc)[0...$limit] {\n    _id,\n    _rev,\n    _type,\n    _createdAt,\n    _updatedAt,\n    mainImage {\n      ...,\n      asset -> {\n        ...,\n        "alt": altText,\n        metadata {\n          lqip,\n          dimensions\n        },\n      },\n    },\n    "slug": slug.current,\n    title,\n  }\n': POST_TEASER_QUERYResult;
+    '\n  *[_type=="post"]|order(_createdAt desc)[0...$limit] {\n    _id,\n    _rev,\n    _type,\n    _createdAt,\n    _updatedAt,\n    locations[]-> {\n      _id,\n      _rev,\n      _type,\n      _createdAt,\n      _updatedAt,\n      name,\n      nameLocalised,\n      type,\n      emoji,\n      countryCode,\n      "slug": slug.current,\n    },\n    mainImage {\n      ...,\n      asset -> {\n        ...,\n        "alt": altText,\n        metadata {\n          lqip,\n          dimensions\n        },\n      },\n    },\n    "slug": slug.current,\n    title,\n  }\n': POST_TEASER_QUERYResult;
     '\n  *[_type=="post"].slug.current\n': POST_SLUG_QUERYResult;
     '\n  *[_type=="post" && slug.current == $slug][0] {\n    _id,\n    _rev,\n    _type,\n    _createdAt,\n    _updatedAt,\n    mainImage,\n    "slug": slug.current,\n    title,\n  }\n': POST_BY_SLUG_QUERYResult;
     '\n  *[_type == "location" && type == "country"].slug.current\n': COUNTRY_SLUG_QUERYResult;

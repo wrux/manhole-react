@@ -51,6 +51,13 @@ export default defineType({
       group: 'general',
     }),
     defineField({
+      name: 'emoji',
+      title: 'Emoji',
+      description: 'Emoji to represent the location',
+      type: 'string',
+      group: 'general',
+    }),
+    defineField({
       name: 'countryCode',
       title: 'Country Code',
       description: 'Two letter ISOcode of the country',

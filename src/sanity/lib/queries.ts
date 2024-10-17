@@ -19,6 +19,19 @@ export const POST_TEASER_QUERY = defineQuery(`
     _type,
     _createdAt,
     _updatedAt,
+    locations[]-> {
+      _id,
+      _rev,
+      _type,
+      _createdAt,
+      _updatedAt,
+      name,
+      nameLocalised,
+      type,
+      emoji,
+      countryCode,
+      "slug": slug.current,
+    },
     mainImage {
       ...,
       asset -> {

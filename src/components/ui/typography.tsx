@@ -7,9 +7,12 @@ export const typographyVariants = cva('', {
       h2: 'text-3xl font-semibold tracking-tight',
       h3: 'text-2xl font-semibold tracking-tight',
       body: 'leading-7',
+      large: 'text-xl leading-7',
+      small: 'text-sm leading-7',
       link: 'font-medium text-primary underline underline-offset-4',
       blockquote: 'border-l-2 pl-6 italic',
       list: 'my-6 ml-6 list-disc [&>li]:mt-2',
+      overline: 'text-sm font-medium',
     },
   },
   defaultVariants: {
