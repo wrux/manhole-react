@@ -1,6 +1,6 @@
-import { notFound } from "next/navigation";
-import { client } from "~/sanity/lib/client";
-import { POST_BY_SLUG_QUERY, POST_SLUG_QUERY } from "~/sanity/lib/queries";
+import { notFound } from 'next/navigation';
+import { client } from '~/sanity/lib/client';
+import { POST_BY_SLUG_QUERY, POST_SLUG_QUERY } from '~/sanity/lib/queries';
 
 export async function getStaticPaths() {
   const slugs = await client.fetch(POST_SLUG_QUERY);

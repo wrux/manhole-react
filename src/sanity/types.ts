@@ -14,7 +14,7 @@
 
 // Source: schema.json
 export type SanityImagePaletteSwatch = {
-  _type: "sanity.imagePaletteSwatch";
+  _type: 'sanity.imagePaletteSwatch';
   background?: string;
   foreground?: string;
   population?: number;
@@ -22,7 +22,7 @@ export type SanityImagePaletteSwatch = {
 };
 
 export type SanityImagePalette = {
-  _type: "sanity.imagePalette";
+  _type: 'sanity.imagePalette';
   darkMuted?: SanityImagePaletteSwatch;
   lightVibrant?: SanityImagePaletteSwatch;
   darkVibrant?: SanityImagePaletteSwatch;
@@ -33,7 +33,7 @@ export type SanityImagePalette = {
 };
 
 export type SanityImageDimensions = {
-  _type: "sanity.imageDimensions";
+  _type: 'sanity.imageDimensions';
   height?: number;
   width?: number;
   aspectRatio?: number;
@@ -41,7 +41,7 @@ export type SanityImageDimensions = {
 
 export type SanityFileAsset = {
   _id: string;
-  _type: "sanity.fileAsset";
+  _type: 'sanity.fileAsset';
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
@@ -62,7 +62,7 @@ export type SanityFileAsset = {
 };
 
 export type Geopoint = {
-  _type: "geopoint";
+  _type: 'geopoint';
   lat?: number;
   lng?: number;
   alt?: number;
@@ -70,7 +70,7 @@ export type Geopoint = {
 
 export type Post = {
   _id: string;
-  _type: "post";
+  _type: 'post';
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
@@ -80,54 +80,54 @@ export type Post = {
     children?: Array<{
       marks?: Array<string>;
       text?: string;
-      _type: "span";
+      _type: 'span';
       _key: string;
     }>;
-    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
-    listItem?: "bullet" | "number";
+    style?: 'normal' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'blockquote';
+    listItem?: 'bullet' | 'number';
     markDefs?: Array<{
       href?: string;
-      _type: "link";
+      _type: 'link';
       _key: string;
     }>;
     level?: number;
-    _type: "block";
+    _type: 'block';
     _key: string;
   }>;
   locations?: Array<{
     _ref: string;
-    _type: "reference";
+    _type: 'reference';
     _weak?: boolean;
     _key: string;
-    [internalGroqTypeReferenceTo]?: "location";
+    [internalGroqTypeReferenceTo]?: 'location';
   }>;
   credits?: Array<{
-    type?: "author" | "photo" | "edit";
+    type?: 'author' | 'photo' | 'edit';
     person?: {
       _ref: string;
-      _type: "reference";
+      _type: 'reference';
       _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "person";
+      [internalGroqTypeReferenceTo]?: 'person';
     };
     note?: string;
-    _type: "credit";
+    _type: 'credit';
     _key: string;
   }>;
   mainImage?: {
     asset?: {
       _ref: string;
-      _type: "reference";
+      _type: 'reference';
       _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
     };
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
-    _type: "image";
+    _type: 'image';
   };
 };
 
 export type SanityImageCrop = {
-  _type: "sanity.imageCrop";
+  _type: 'sanity.imageCrop';
   top?: number;
   bottom?: number;
   left?: number;
@@ -135,7 +135,7 @@ export type SanityImageCrop = {
 };
 
 export type SanityImageHotspot = {
-  _type: "sanity.imageHotspot";
+  _type: 'sanity.imageHotspot';
   x?: number;
   y?: number;
   height?: number;
@@ -144,7 +144,7 @@ export type SanityImageHotspot = {
 
 export type SanityImageAsset = {
   _id: string;
-  _type: "sanity.imageAsset";
+  _type: 'sanity.imageAsset';
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
@@ -166,14 +166,14 @@ export type SanityImageAsset = {
 };
 
 export type SanityAssetSourceData = {
-  _type: "sanity.assetSourceData";
+  _type: 'sanity.assetSourceData';
   name?: string;
   id?: string;
   url?: string;
 };
 
 export type SanityImageMetadata = {
-  _type: "sanity.imageMetadata";
+  _type: 'sanity.imageMetadata';
   location?: Geopoint;
   dimensions?: SanityImageDimensions;
   palette?: SanityImagePalette;
@@ -185,7 +185,7 @@ export type SanityImageMetadata = {
 
 export type Person = {
   _id: string;
-  _type: "person";
+  _type: 'person';
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
@@ -196,24 +196,38 @@ export type Person = {
 
 export type Location = {
   _id: string;
-  _type: "location";
+  _type: 'location';
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
   name?: string;
   nameLocalised?: string;
-  type?: "country" | "city";
+  type?: 'country' | 'city';
   slug?: Slug;
   countryCode?: string;
 };
 
 export type Slug = {
-  _type: "slug";
+  _type: 'slug';
   current?: string;
   source?: string;
 };
 
-export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityFileAsset | Geopoint | Post | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | Person | Location | Slug;
+export type AllSanitySchemaTypes =
+  | SanityImagePaletteSwatch
+  | SanityImagePalette
+  | SanityImageDimensions
+  | SanityFileAsset
+  | Geopoint
+  | Post
+  | SanityImageCrop
+  | SanityImageHotspot
+  | SanityImageAsset
+  | SanityAssetSourceData
+  | SanityImageMetadata
+  | Person
+  | Location
+  | Slug;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./src/sanity/lib/queries.ts
 // Variable: POST_TEASER_QUERY
@@ -221,13 +235,13 @@ export declare const internalGroqTypeReferenceTo: unique symbol;
 export type POST_TEASER_QUERYResult = Array<{
   _id: string;
   _rev: string;
-  _type: "post";
+  _type: 'post';
   _createdAt: string;
   _updatedAt: string;
   mainImage: {
     asset: {
       _id: string;
-      _type: "sanity.imageAsset";
+      _type: 'sanity.imageAsset';
       _createdAt: string;
       _updatedAt: string;
       _rev: string;
@@ -253,7 +267,7 @@ export type POST_TEASER_QUERYResult = Array<{
     } | null;
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
-    _type: "image";
+    _type: 'image';
   } | null;
   slug: string | null;
   title: string | null;
@@ -266,19 +280,19 @@ export type POST_SLUG_QUERYResult = Array<string | null>;
 export type POST_BY_SLUG_QUERYResult = {
   _id: string;
   _rev: string;
-  _type: "post";
+  _type: 'post';
   _createdAt: string;
   _updatedAt: string;
   mainImage: {
     asset?: {
       _ref: string;
-      _type: "reference";
+      _type: 'reference';
       _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
     };
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
-    _type: "image";
+    _type: 'image';
   } | null;
   slug: string | null;
   title: string | null;
@@ -291,26 +305,26 @@ export type COUNTRY_SLUG_QUERYResult = Array<string | null>;
 export type COUNTRY_BY_SLUG_QUERYResult = {
   _id: string;
   _rev: string;
-  _type: "location";
+  _type: 'location';
   _createdAt: string;
   _updatedAt: string;
   countryCode: string | null;
   posts: Array<{
     _id: string;
     _rev: string;
-    _type: "post";
+    _type: 'post';
     _createdAt: string;
     _updatedAt: string;
     mainImage: {
       asset?: {
         _ref: string;
-        _type: "reference";
+        _type: 'reference';
         _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+        [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
       };
       hotspot?: SanityImageHotspot;
       crop?: SanityImageCrop;
-      _type: "image";
+      _type: 'image';
     } | null;
     slug: string | null;
     title: string | null;
@@ -321,13 +335,13 @@ export type COUNTRY_BY_SLUG_QUERYResult = {
 } | null;
 
 // Query TypeMap
-import "@sanity/client";
-declare module "@sanity/client" {
+import '@sanity/client';
+declare module '@sanity/client' {
   interface SanityQueries {
-    "\n  *[_type==\"post\"]|order(_createdAt desc)[0...$limit] {\n    _id,\n    _rev,\n    _type,\n    _createdAt,\n    _updatedAt,\n    mainImage {\n      ...,\n      asset -> {\n        ...,\n        \"alt\": altText,\n        metadata {\n          lqip,\n          dimensions\n        },\n      },\n    },\n    \"slug\": slug.current,\n    title,\n  }\n": POST_TEASER_QUERYResult;
-    "\n  *[_type==\"post\"].slug.current\n": POST_SLUG_QUERYResult;
-    "\n  *[_type==\"post\" && slug.current == $slug][0] {\n    _id,\n    _rev,\n    _type,\n    _createdAt,\n    _updatedAt,\n    mainImage,\n    \"slug\": slug.current,\n    title,\n  }\n": POST_BY_SLUG_QUERYResult;
-    "\n  *[_type == \"location\" && type == \"country\"].slug.current\n": COUNTRY_SLUG_QUERYResult;
-    "\n  *[_type == \"location\" && type == \"country\" && slug.current == $slug][0] {\n    _id,\n    _rev,\n    _type,\n    _createdAt,\n    _updatedAt,\n    countryCode,\n    \"posts\": *[_type==\"post\" && references(^._id)]|order(_createdAt desc) {\n      _id,\n      _rev,\n      _type,\n      _createdAt,\n      _updatedAt,\n      mainImage,\n      \"slug\": slug.current,\n      title,\n    },\n    \"slug\": slug.current,\n    name,\n    nameLocalised,\n  }\n": COUNTRY_BY_SLUG_QUERYResult;
+    '\n  *[_type=="post"]|order(_createdAt desc)[0...$limit] {\n    _id,\n    _rev,\n    _type,\n    _createdAt,\n    _updatedAt,\n    mainImage {\n      ...,\n      asset -> {\n        ...,\n        "alt": altText,\n        metadata {\n          lqip,\n          dimensions\n        },\n      },\n    },\n    "slug": slug.current,\n    title,\n  }\n': POST_TEASER_QUERYResult;
+    '\n  *[_type=="post"].slug.current\n': POST_SLUG_QUERYResult;
+    '\n  *[_type=="post" && slug.current == $slug][0] {\n    _id,\n    _rev,\n    _type,\n    _createdAt,\n    _updatedAt,\n    mainImage,\n    "slug": slug.current,\n    title,\n  }\n': POST_BY_SLUG_QUERYResult;
+    '\n  *[_type == "location" && type == "country"].slug.current\n': COUNTRY_SLUG_QUERYResult;
+    '\n  *[_type == "location" && type == "country" && slug.current == $slug][0] {\n    _id,\n    _rev,\n    _type,\n    _createdAt,\n    _updatedAt,\n    countryCode,\n    "posts": *[_type=="post" && references(^._id)]|order(_createdAt desc) {\n      _id,\n      _rev,\n      _type,\n      _createdAt,\n      _updatedAt,\n      mainImage,\n      "slug": slug.current,\n      title,\n    },\n    "slug": slug.current,\n    name,\n    nameLocalised,\n  }\n': COUNTRY_BY_SLUG_QUERYResult;
   }
 }

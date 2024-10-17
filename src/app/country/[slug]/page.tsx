@@ -1,9 +1,9 @@
-import { notFound } from "next/navigation";
-import { client } from "~/sanity/lib/client";
+import { notFound } from 'next/navigation';
+import { client } from '~/sanity/lib/client';
 import {
   COUNTRY_BY_SLUG_QUERY,
   COUNTRY_SLUG_QUERY,
-} from "~/sanity/lib/queries";
+} from '~/sanity/lib/queries';
 
 export async function getStaticPaths() {
   const slugs = await client.fetch(COUNTRY_SLUG_QUERY);
