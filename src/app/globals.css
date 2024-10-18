@@ -50,6 +50,18 @@ body {
   }
 }
 
+@layer components {
+  .circle {
+    aspect-ratio: 1;
+    height: 1.666em;
+    width: 1.666em;
+    flex-shrink: 0;
+    border-radius: 100%;
+    border-width: 0.333em;
+    border-color: currentColor;
+  }
+}
+
 @layer utilities {
   .link {
     text-decoration: none;
@@ -76,7 +88,7 @@ body {
     position: relative;
 
     .link-overlay:before {
-      content: "";
+      content: '';
       position: absolute;
       inset: 0;
       z-index: 1;

@@ -12,7 +12,7 @@ export const typographyVariants = cva('', {
       link: 'font-medium text-primary underline underline-offset-4',
       blockquote: 'border-l-2 pl-6 italic',
       list: 'my-6 ml-6 list-disc [&>li]:mt-2',
-      overline: 'text-sm font-medium',
+      overline: 'text-sm font-medium uppercase tracking-widest',
     },
   },
   defaultVariants: {

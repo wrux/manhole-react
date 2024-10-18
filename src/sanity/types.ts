@@ -311,6 +311,21 @@ export type POST_BY_SLUG_QUERYResult = {
   slug: string | null;
   title: string | null;
 } | null;
+// Variable: COUNTRY_LIST_QUERY
+// Query: *[_type == "location" && type == "country"] {    _id,    _rev,    _type,    _createdAt,    _updatedAt,    name,    nameLocalised,    type,    emoji,    countryCode,    "slug": slug.current,  }
+export type COUNTRY_LIST_QUERYResult = Array<{
+  _id: string;
+  _rev: string;
+  _type: 'location';
+  _createdAt: string;
+  _updatedAt: string;
+  name: string | null;
+  nameLocalised: string | null;
+  type: 'city' | 'country' | null;
+  emoji: string | null;
+  countryCode: string | null;
+  slug: string | null;
+}>;
 // Variable: COUNTRY_SLUG_QUERY
 // Query: *[_type == "location" && type == "country"].slug.current
 export type COUNTRY_SLUG_QUERYResult = Array<string | null>;
@@ -355,6 +370,7 @@ declare module '@sanity/client' {
     '\n  *[_type=="post"]|order(_createdAt desc)[0...$limit] {\n    _id,\n    _rev,\n    _type,\n    _createdAt,\n    _updatedAt,\n    locations[]-> {\n      _id,\n      _rev,\n      _type,\n      _createdAt,\n      _updatedAt,\n      name,\n      nameLocalised,\n      type,\n      emoji,\n      countryCode,\n      "slug": slug.current,\n    },\n    mainImage {\n      ...,\n      asset -> {\n        ...,\n        "alt": altText,\n        metadata {\n          lqip,\n          dimensions\n        },\n      },\n    },\n    "slug": slug.current,\n    title,\n  }\n': POST_TEASER_QUERYResult;
     '\n  *[_type=="post"].slug.current\n': POST_SLUG_QUERYResult;
     '\n  *[_type=="post" && slug.current == $slug][0] {\n    _id,\n    _rev,\n    _type,\n    _createdAt,\n    _updatedAt,\n    mainImage,\n    "slug": slug.current,\n    title,\n  }\n': POST_BY_SLUG_QUERYResult;
+    '\n  *[_type == "location" && type == "country"] {\n    _id,\n    _rev,\n    _type,\n    _createdAt,\n    _updatedAt,\n    name,\n    nameLocalised,\n    type,\n    emoji,\n    countryCode,\n    "slug": slug.current,\n  }\n': COUNTRY_LIST_QUERYResult;
     '\n  *[_type == "location" && type == "country"].slug.current\n': COUNTRY_SLUG_QUERYResult;
     '\n  *[_type == "location" && type == "country" && slug.current == $slug][0] {\n    _id,\n    _rev,\n    _type,\n    _createdAt,\n    _updatedAt,\n    countryCode,\n    "posts": *[_type=="post" && references(^._id)]|order(_createdAt desc) {\n      _id,\n      _rev,\n      _type,\n      _createdAt,\n      _updatedAt,\n      mainImage,\n      "slug": slug.current,\n      title,\n    },\n    "slug": slug.current,\n    name,\n    nameLocalised,\n  }\n': COUNTRY_BY_SLUG_QUERYResult;
   }

@@ -65,6 +65,22 @@ export const POST_BY_SLUG_QUERY = defineQuery(`
   }
 `);
 
+export const COUNTRY_LIST_QUERY = defineQuery(`
+  *[_type == "location" && type == "country"] {
+    _id,
+    _rev,
+    _type,
+    _createdAt,
+    _updatedAt,
+    name,
+    nameLocalised,
+    type,
+    emoji,
+    countryCode,
+    "slug": slug.current,
+  }
+`);
+
 export const COUNTRY_SLUG_QUERY = defineQuery(`
   *[_type == "location" && type == "country"].slug.current
 `);
