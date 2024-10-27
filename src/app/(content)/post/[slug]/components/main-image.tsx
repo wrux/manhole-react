@@ -22,6 +22,7 @@ export default function MainImage({ image }: { image: MainImageType }) {
       {...imageProps}
       alt=""
       className="h-full w-full overflow-hidden rounded-xl object-cover"
+      unoptimized
       // alt={`Cover image for ${title}`}
       // sizes={sizes}
       // placeholder="blur"

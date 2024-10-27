@@ -38,6 +38,7 @@ export default function PostTeaser({
           sizes={sizes}
           placeholder="blur"
           blurDataURL={mainImage.asset?.metadata?.lqip || undefined}
+          unoptimized
         />
       )}
 
