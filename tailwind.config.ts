@@ -11,9 +11,9 @@ const config: Config = {
     container: {
       center: true,
       padding: {
-        DEFAULT: '1rem',
-        sm: '1.5rem',
+        DEFAULT: 'var(--space)',
       },
+      screens: { DEFAULT: '120rem' },
     },
     extend: {
       borderRadius: {
@@ -66,8 +66,12 @@ const config: Config = {
           '5': 'hsl(var(--chart-5))',
         },
       },
+      spacing: {
+        space: 'var(--space)',
+      },
     },
   },
   plugins: [require('tailwindcss-animate')],
 };
+
 export default config;

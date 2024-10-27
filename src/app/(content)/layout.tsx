@@ -23,7 +23,7 @@ async function SiteHeader() {
 
   return (
     <header className="sticky top-0 z-50 w-full bg-background/70 py-4 backdrop-blur-lg transition-all duration-300">
-      <div className="container flex max-w-full items-center gap-6">
+      <div className="container flex items-center gap-6">
         <Link
           className="block w-full text-lg md:w-auto lg:text-2xl"
           href="/"
@@ -66,7 +66,7 @@ async function SiteHeader() {
 function SiteFooter() {
   return (
     <footer className="pb-12 pt-8 lg:pb-20 lg:pt-12">
-      <div className="container max-w-full">
+      <div className="container">
         <div className="flex items-center gap-4">
           <Link
             className="block w-full text-lg md:w-auto lg:text-2xl"

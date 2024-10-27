@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { Button } from '~/components/ui/button';
 import { Card, CardContent } from '~/components/ui/card';
 import PostTeaser from '~/components/ui/common/post-teaser';
+import TileGrid from '~/components/ui/common/tile-grid';
 import { typographyVariants } from '~/components/ui/typography';
 import { cn } from '~/lib/utils';
 import { client } from '~/sanity/lib/client';
@@ -13,10 +14,10 @@ export default async function Home() {
   });
 
   return (
-    <article className="container my-6 max-w-full">
-      <div className="grid grid-cols-2 gap-4 lg:grid-cols-3 lg:gap-6 2xl:grid-cols-4">
+    <article className="my-space container">
+      <TileGrid>
         <Card className="col-span-2 xl:col-span-1">
-          <CardContent className="flex h-full flex-col gap-3 p-4 xl:p-6">
+          <CardContent className="p-space flex h-full flex-col gap-3">
             <h1 className="flex flex-col justify-start gap-4">
               <div
                 className="circle text-5xl"
@@ -56,7 +57,15 @@ export default async function Home() {
             sizes="(max-width: 1023px) calc(50vw - 1rem), (max-width: 1279px) calc(33.33vw - 3rem), calc(25vw - 4.5rem)"
           />
         ))}
-      </div>
+
+        <Card>
+          <CardContent className="p-space flex h-full flex-col gap-3">
+            <Button asChild size="lg" className="mr-auto">
+              <Link href="/gallery">View Full Gallery</Link>
+            </Button>
+          </CardContent>
+        </Card>
+      </TileGrid>
     </article>
   );
 }

@@ -28,7 +28,7 @@ export default async function PostPage({
   // console.log('POST', post);
 
   return (
-    <div className="container my-6 max-w-full">
+    <div className="my-space container max-w-full">
       <article>
         <div className="grid gap-6 md:grid-cols-12">
           <div className="md:order-2 md:col-span-7">
