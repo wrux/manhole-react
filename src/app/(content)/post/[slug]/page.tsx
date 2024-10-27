@@ -15,11 +15,13 @@ export async function getStaticPaths() {
   };
 }
 
-export default async function PostPage({
-  params: { slug },
-}: {
-  params: { slug: string };
+export default async function PostPage(props: {
+  params: Promise<{ slug: string }>;
 }) {
+  const params = await props.params;
+
+  const { slug } = params;
+
   const post = await client.fetch(POST_BY_SLUG_QUERY, { slug });
   if (!post) {
     return notFound();
@@ -28,7 +30,7 @@ export default async function PostPage({
   // console.log('POST', post);
 
   return (
-    <div className="my-space container max-w-full">
+    <div className="my-space container max-w-full space-y-16">
       <article>
         <div className="grid gap-6 md:grid-cols-12">
           <div className="md:order-2 md:col-span-7">

@@ -13,11 +13,17 @@ export async function getStaticPaths() {
   };
 }
 
-export default async function PostPage({
-  params: { slug },
-}: {
-  params: { slug: string };
-}) {
+export default async function PostPage(
+  props: {
+    params: Promise<{ slug: string }>;
+  }
+) {
+  const params = await props.params;
+
+  const {
+    slug
+  } = params;
+
   const country = await client.fetch(COUNTRY_BY_SLUG_QUERY, { slug });
   if (!country) {
     return notFound();
