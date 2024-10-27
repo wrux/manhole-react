@@ -11,7 +11,7 @@ export default function ContentLayout({
 }>) {
   return (
     <div>
-      <SiteHeader />
+      {/* <SiteHeader /> */}
       <main>{children}</main>
       <SiteFooter />
     </div>

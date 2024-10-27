@@ -4,6 +4,7 @@ import { cn } from '~/lib/utils';
 
 export type LocationListProps = {
   className?: string;
+  direction?: 'row' | 'column';
   locations: {
     _id: string;
     emoji: string | null;
@@ -14,10 +15,17 @@ export type LocationListProps = {
 
 export default function LocationList({
   className,
+  direction = 'column',
   locations,
 }: LocationListProps) {
   return (
-    <div className={cn('flex flex-col gap-2', className)}>
+    <div
+      className={cn(
+        'flex gap-2',
+        direction === 'column' ? 'flex-col' : 'flex-row',
+        className,
+      )}
+    >
       {locations
         .filter((location) => !!location.name && !!location.slug)
         .map((location) => (

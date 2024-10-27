@@ -1,16 +1,33 @@
 import { defineQuery } from 'next-sanity';
 
-// const imageFragment = `{
-//   ...,
-//   asset -> {
-//     ...,
-//     "alt": altText,
-//     metadata {
-//       lqip,
-//       dimensions
-//     },
-//   },
-// }`;
+const imageFragment = `mainImage {
+    ...,
+    asset -> {
+      ...,
+      "alt": altText,
+      metadata {
+        lqip,
+        dimensions
+      },
+    },
+  }
+`;
+
+const locationsFragment = `locations[]-> {
+  _id,
+  _rev,
+  _type,
+  _createdAt,
+  _updatedAt,
+  name,
+  nameLocalised,
+  type,
+  emoji,
+  "slug": slug.current,
+  type == 'country' => {
+    countryCode,
+  },
+}`;
 
 export const POST_TEASER_QUERY = defineQuery(`
   *[_type=="post"]|order(_createdAt desc)[0...$limit] {
@@ -19,30 +36,8 @@ export const POST_TEASER_QUERY = defineQuery(`
     _type,
     _createdAt,
     _updatedAt,
-    locations[]-> {
-      _id,
-      _rev,
-      _type,
-      _createdAt,
-      _updatedAt,
-      name,
-      nameLocalised,
-      type,
-      emoji,
-      countryCode,
-      "slug": slug.current,
-    },
-    mainImage {
-      ...,
-      asset -> {
-        ...,
-        "alt": altText,
-        metadata {
-          lqip,
-          dimensions
-        },
-      },
-    },
+    ${locationsFragment},
+    ${imageFragment},
     "slug": slug.current,
     title,
   }
@@ -59,8 +54,33 @@ export const POST_BY_SLUG_QUERY = defineQuery(`
     _type,
     _createdAt,
     _updatedAt,
-    mainImage,
+    body,
+    "bodyHTML": pt::text(body),
+    credits[] {
+      ...,
+      person-> {
+        _id,
+        fullName,
+        website,
+      },
+    },
+    gallery,
+    ${locationsFragment},
+    ${imageFragment},
+    "metaDescription": pt::text(summary),
+    "morePosts": *[_type=="post" && _id != ^._id]|order(_createdAt desc)[0...6] {
+      _id,
+      _rev,
+      _type,
+      _createdAt,
+      _updatedAt,
+      ${imageFragment},
+      "slug": slug.current,
+      title,
+    },
     "slug": slug.current,
+    summary,
+    "summaryHTML": pt::text(summary),
     title,
   }
 `);
@@ -92,19 +112,7 @@ export const COUNTRY_BY_SLUG_QUERY = defineQuery(`
     _type,
     _createdAt,
     _updatedAt,
-    countryCode,
-    "posts": *[_type=="post" && references(^._id)]|order(_createdAt desc) {
-      _id,
-      _rev,
-      _type,
-      _createdAt,
-      _updatedAt,
-      mainImage,
-      "slug": slug.current,
-      title,
-    },
     "slug": slug.current,
-    name,
-    nameLocalised,
+    title,
   }
 `);
