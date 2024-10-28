@@ -48,13 +48,6 @@ export const GalleryProvider: React.FC<GalleryProviderProps> = ({
     router.push(newUrl);
   }, [query, router]);
 
-  // Retrieve the query from the URL when the component mounts
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const searchQuery = params.get('query') || '';
-    setQuery(searchQuery);
-  }, []);
-
   return (
     <QueryContext.Provider value={{ query, setQuery }}>
       {children}

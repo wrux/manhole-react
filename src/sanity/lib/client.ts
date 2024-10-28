@@ -9,7 +9,7 @@ export const client = createClient({
   useCdn: false,
 });
 
-export const clientSideClient = createClient({
+export const cdnClient = createClient({
   projectId,
   dataset,
   apiVersion,

@@ -1,8 +1,7 @@
 import Link from 'next/link';
-import PostTeaser from '~/components/ui/common/post-teaser';
-import TileGrid from '~/components/ui/common/tile-grid';
 import { client } from '~/sanity/lib/client';
 import { POST_SEARCH_QUERY, POST_TEASER_QUERY } from '~/sanity/lib/queries';
+import GalleryGrid from './components/gallery-grid';
 import { GalleryProvider } from './components/gallery-provider';
 import { SearchInput } from './components/search-input';
 
@@ -14,15 +13,15 @@ export default async function GalleryPage({
   const { query } = await searchParams;
   let posts = [];
 
-  // console.log('search params', searchParams);
+  console.log('SSR');
 
-  if (query) {
+  if (query && query !== '') {
     posts = await client.fetch(POST_SEARCH_QUERY, {
       query,
     });
   } else {
     posts = await client.fetch(POST_TEASER_QUERY, {
-      limit: 10,
+      limit: 9,
     });
   }
 
@@ -47,6 +46,8 @@ export default async function GalleryPage({
           {/* <FilterDropdowns /> */}
         </div>
 
+        <GalleryGrid />
+        {/*
         <TileGrid>
           {posts.length > 0 ? (
             posts.map((post) => (
@@ -63,7 +64,7 @@ export default async function GalleryPage({
               <p>No posts found.</p>
             </div>
           )}
-        </TileGrid>
+        </TileGrid> */}
       </div>
     </GalleryProvider>
   );
