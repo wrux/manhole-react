@@ -11,7 +11,7 @@ export default function GalleryGrid({ children }: PropsWithChildren) {
   return (
     <TileGrid
       className={cn('transition-opacity duration-300', {
-        'opacity-50': isTyping,
+        'opacity-30': isTyping,
       })}
     >
       {children}

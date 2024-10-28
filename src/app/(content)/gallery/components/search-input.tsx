@@ -22,6 +22,7 @@ export function SearchInput() {
 
     if (searchTerm === '') {
       setQuery(null);
+      setIsTyping(false);
       clearTimeout(handler);
       return;
     }
@@ -41,7 +42,7 @@ export function SearchInput() {
       <input
         className="focus-visible:ring-highlight flex-1 rounded-full border bg-card py-2 pl-12 pr-6 text-card-foreground shadow-highlight focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opacity-50"
         type="search"
-        placeholder="Search"
+        placeholder="Search for a country, city or general enquiry..."
         value={searchTerm || ''}
         onInput={(event) => {
           setSearchTerm(event.currentTarget.value.trim());
