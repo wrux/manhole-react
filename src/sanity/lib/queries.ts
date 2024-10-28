@@ -85,6 +85,32 @@ export const POST_BY_SLUG_QUERY = defineQuery(`
   }
 `);
 
+export const POST_SEARCH_QUERY = defineQuery(`
+  *[_type == "post" && (
+    title match $query ||
+    locations[]->name match $query ||
+    summary[].children[].text match $query ||
+    body[].children[].text match $query
+  )]
+  |score(
+    pt::text(body) match $query,
+    boost(title match $query, 3),
+    boost(pt::text(summary) match $query, 5),
+  )
+  |order(_score desc)
+  {
+    _id,
+    _rev,
+    _type,
+    _createdAt,
+    _updatedAt,
+    ${locationsFragment},
+    ${imageFragment},
+    "slug": slug.current,
+    title,
+  }
+`);
+
 export const COUNTRY_LIST_QUERY = defineQuery(`
   *[_type == "location" && type == "country"] {
     _id,

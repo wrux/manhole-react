@@ -446,6 +446,75 @@ export type POST_BY_SLUG_QUERYResult = {
   summaryHTML: string;
   title: string | null;
 } | null;
+// Variable: POST_SEARCH_QUERY
+// Query: *[_type == "post" && (    title match $query ||    locations[]->name match $query ||    summary[].children[].text match $query ||    body[].children[].text match $query  )]  |score(    pt::text(body) match $query,    boost(title match $query, 3),    boost(pt::text(summary) match $query, 5),  )  |order(_score desc)  {    _id,    _rev,    _type,    _createdAt,    _updatedAt,    locations[]-> {  _id,  _rev,  _type,  _createdAt,  _updatedAt,  name,  nameLocalised,  type,  emoji,  "slug": slug.current,  type == 'country' => {    countryCode,  },},    mainImage {    ...,    asset -> {      ...,      "alt": altText,      metadata {        lqip,        dimensions      },    },  },    "slug": slug.current,    title,  }
+export type POST_SEARCH_QUERYResult = Array<{
+  _id: string;
+  _rev: string;
+  _type: 'post';
+  _createdAt: string;
+  _updatedAt: string;
+  locations: Array<
+    | {
+        _id: string;
+        _rev: string;
+        _type: 'location';
+        _createdAt: string;
+        _updatedAt: string;
+        name: string | null;
+        nameLocalised: string | null;
+        type: 'city' | 'country' | null;
+        emoji: string | null;
+        slug: string | null;
+        countryCode: string | null;
+      }
+    | {
+        _id: string;
+        _rev: string;
+        _type: 'location';
+        _createdAt: string;
+        _updatedAt: string;
+        name: string | null;
+        nameLocalised: string | null;
+        type: 'city' | 'country' | null;
+        emoji: string | null;
+        slug: string | null;
+      }
+  > | null;
+  mainImage: {
+    asset: {
+      _id: string;
+      _type: 'sanity.imageAsset';
+      _createdAt: string;
+      _updatedAt: string;
+      _rev: string;
+      originalFilename?: string;
+      label?: string;
+      title?: string;
+      description?: string;
+      altText?: string;
+      sha1hash?: string;
+      extension?: string;
+      mimeType?: string;
+      size?: number;
+      assetId?: string;
+      uploadId?: string;
+      path?: string;
+      url?: string;
+      metadata: {
+        lqip: string | null;
+        dimensions: SanityImageDimensions | null;
+      } | null;
+      source?: SanityAssetSourceData;
+      alt: string | null;
+    } | null;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: 'image';
+  } | null;
+  slug: string | null;
+  title: string | null;
+}>;
 // Variable: COUNTRY_LIST_QUERY
 // Query: *[_type == "location" && type == "country"] {    _id,    _rev,    _type,    _createdAt,    _updatedAt,    name,    nameLocalised,    type,    emoji,    countryCode,    "slug": slug.current,  }
 export type COUNTRY_LIST_QUERYResult = Array<{
@@ -483,6 +552,7 @@ declare module '@sanity/client' {
     '\n  *[_type=="post"]|order(_createdAt desc)[0...$limit] {\n    _id,\n    _rev,\n    _type,\n    _createdAt,\n    _updatedAt,\n    locations[]-> {\n  _id,\n  _rev,\n  _type,\n  _createdAt,\n  _updatedAt,\n  name,\n  nameLocalised,\n  type,\n  emoji,\n  "slug": slug.current,\n  type == \'country\' => {\n    countryCode,\n  },\n},\n    mainImage {\n    ...,\n    asset -> {\n      ...,\n      "alt": altText,\n      metadata {\n        lqip,\n        dimensions\n      },\n    },\n  }\n,\n    "slug": slug.current,\n    title,\n  }\n': POST_TEASER_QUERYResult;
     '\n  *[_type=="post"].slug.current\n': POST_SLUG_QUERYResult;
     '\n  *[_type=="post" && slug.current == $slug][0] {\n    _id,\n    _rev,\n    _type,\n    _createdAt,\n    _updatedAt,\n    body,\n    "bodyHTML": pt::text(body),\n    credits[] {\n      ...,\n      person-> {\n        _id,\n        fullName,\n        website,\n      },\n    },\n    gallery,\n    locations[]-> {\n  _id,\n  _rev,\n  _type,\n  _createdAt,\n  _updatedAt,\n  name,\n  nameLocalised,\n  type,\n  emoji,\n  "slug": slug.current,\n  type == \'country\' => {\n    countryCode,\n  },\n},\n    mainImage {\n    ...,\n    asset -> {\n      ...,\n      "alt": altText,\n      metadata {\n        lqip,\n        dimensions\n      },\n    },\n  }\n,\n    "metaDescription": pt::text(summary),\n    "morePosts": *[_type=="post" && _id != ^._id]|order(_createdAt desc)[0...6] {\n      _id,\n      _rev,\n      _type,\n      _createdAt,\n      _updatedAt,\n      mainImage {\n    ...,\n    asset -> {\n      ...,\n      "alt": altText,\n      metadata {\n        lqip,\n        dimensions\n      },\n    },\n  }\n,\n      "slug": slug.current,\n      title,\n    },\n    "slug": slug.current,\n    summary,\n    "summaryHTML": pt::text(summary),\n    title,\n  }\n': POST_BY_SLUG_QUERYResult;
+    '\n  *[_type == "post" && (\n    title match $query ||\n    locations[]->name match $query ||\n    summary[].children[].text match $query ||\n    body[].children[].text match $query\n  )]\n  |score(\n    pt::text(body) match $query,\n    boost(title match $query, 3),\n    boost(pt::text(summary) match $query, 5),\n  )\n  |order(_score desc)\n  {\n    _id,\n    _rev,\n    _type,\n    _createdAt,\n    _updatedAt,\n    locations[]-> {\n  _id,\n  _rev,\n  _type,\n  _createdAt,\n  _updatedAt,\n  name,\n  nameLocalised,\n  type,\n  emoji,\n  "slug": slug.current,\n  type == \'country\' => {\n    countryCode,\n  },\n},\n    mainImage {\n    ...,\n    asset -> {\n      ...,\n      "alt": altText,\n      metadata {\n        lqip,\n        dimensions\n      },\n    },\n  }\n,\n    "slug": slug.current,\n    title,\n  }\n': POST_SEARCH_QUERYResult;
     '\n  *[_type == "location" && type == "country"] {\n    _id,\n    _rev,\n    _type,\n    _createdAt,\n    _updatedAt,\n    name,\n    nameLocalised,\n    type,\n    emoji,\n    countryCode,\n    "slug": slug.current,\n  }\n': COUNTRY_LIST_QUERYResult;
     '\n  *[_type == "location" && type == "country"].slug.current\n': COUNTRY_SLUG_QUERYResult;
     '\n  *[_type == "location" && type == "country" && slug.current == $slug][0] {\n    _id,\n    _rev,\n    _type,\n    _createdAt,\n    _updatedAt,\n    "slug": slug.current,\n    title,\n  }\n': COUNTRY_BY_SLUG_QUERYResult;

@@ -9,9 +9,9 @@ export const client = createClient({
   useCdn: false,
 });
 
-export const slientSideClient = createClient({
+export const clientSideClient = createClient({
   projectId,
   dataset,
   apiVersion,
-  useCdn: false,
+  useCdn: true,
 });
