@@ -10,8 +10,8 @@ import React, {
 } from 'react';
 
 interface QueryContextProps {
-  query: string;
-  setQuery: (query: string) => void;
+  query: string | null;
+  setQuery: (query: string | null) => void;
 }
 
 const QueryContext = createContext<QueryContextProps | undefined>(undefined);
@@ -27,12 +27,14 @@ export const useGalleryContext = (): QueryContextProps => {
 
 interface GalleryProviderProps {
   children: ReactNode;
+  defaultQuery: string | null;
 }
 
 export const GalleryProvider: React.FC<GalleryProviderProps> = ({
   children,
+  defaultQuery,
 }) => {
-  const [query, setQuery] = useState<string>('');
+  const [query, setQuery] = useState<string | null>(defaultQuery);
   const router = useRouter();
 
   // Update the URL search parameter whenever the query state changes

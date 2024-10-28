@@ -2,7 +2,7 @@ import PostTeaser from '~/components/ui/common/post-teaser';
 import { cdnClient } from '~/sanity/lib/client';
 import { POST_SEARCH_QUERY, POST_TEASER_QUERY } from '~/sanity/lib/queries';
 
-export default async function GalleryItems({ query }: { query: string }) {
+export default async function GalleryItems({ query }: { query?: string }) {
   let posts = [];
 
   if (query && query !== '') {

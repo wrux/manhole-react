@@ -12,7 +12,7 @@ export function SearchInput() {
 
   useEffect(() => {
     const handler = setTimeout(() => {
-      setQuery(searchTerm);
+      setQuery(searchTerm || null);
     }, DEBOUNCE_DELAY);
 
     return () => {
@@ -29,8 +29,9 @@ export function SearchInput() {
         className="focus-visible:ring-highlight flex-1 rounded-full border bg-card py-2 pl-12 pr-6 text-card-foreground shadow-highlight focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opacity-50"
         type="search"
         placeholder="Search"
-        value={searchTerm}
+        value={searchTerm || ''}
         onInput={(event) => setSearchTerm(event.currentTarget.value.trim())}
+        tabIndex={1}
       />
     </div>
   );

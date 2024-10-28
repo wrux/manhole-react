@@ -7,6 +7,7 @@ import { client } from '~/sanity/lib/client';
 import { squareImageUrlBuilder } from '~/sanity/lib/image';
 import { POST_TEASER_QUERYResult } from '~/sanity/types';
 import { Card, CardContent } from '../card';
+import { Skeleton } from '../skeleton';
 import { typographyVariants } from '../typography';
 import LocationList from './location-list';
 
@@ -16,6 +17,15 @@ export type PostTeaserProps = Pick<
 > & {
   sizes?: string;
 };
+
+export function PostTeaserPlaceholder() {
+  return (
+    <Skeleton className="p-space flex aspect-square w-full flex-col justify-end gap-3 rounded-xl shadow-highlight">
+      <Skeleton className="h-6 w-1/3" />
+      <Skeleton className="h-8 w-2/3" />
+    </Skeleton>
+  );
+}
 
 export default function PostTeaser({
   locations,
