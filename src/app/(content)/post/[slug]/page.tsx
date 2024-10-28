@@ -2,7 +2,7 @@ import { PortableText } from 'next-sanity';
 import { notFound } from 'next/navigation';
 import Credits from '~/components/ui/common/credits';
 import LocationList from '~/components/ui/common/location-list';
-import { typographyVariants } from '~/components/ui/typography';
+import LogoTitle from '~/components/ui/common/logo-title';
 import { client } from '~/sanity/lib/client';
 import { POST_BY_SLUG_QUERY, POST_SLUG_QUERY } from '~/sanity/lib/queries';
 import MainImage from './components/main-image';
@@ -27,17 +27,17 @@ export default async function PostPage(props: {
     return notFound();
   }
 
-  // console.log('POST', post);
-
   return (
-    <div className="my-space container max-w-full space-y-16">
+    <div className="my-space space-y-space container">
       <article>
         <div className="grid gap-6 md:grid-cols-12">
           <div className="md:order-2 md:col-span-7">
             {post.mainImage && <MainImage image={post.mainImage} />}
           </div>
 
-          <div className="space-y-5 md:order-1 md:col-span-5 md:space-y-8 md:py-8">
+          <div className="space-y-space md:order-1 md:col-span-5">
+            <LogoTitle title={post?.title || ''} />
+
             {post?.locations && post?.locations?.length > 0 && (
               <LocationList
                 direction="row"
@@ -50,12 +50,8 @@ export default async function PostPage(props: {
               />
             )}
 
-            <h1 className={typographyVariants({ variant: 'h1' })}>
-              {post.title}
-            </h1>
-
             {post?.summary && post.summary.length > 0 && (
-              <div className="max-w-[40ch]">
+              <div className="max-w-prose">
                 <PortableText value={post.summary} />
               </div>
             )}

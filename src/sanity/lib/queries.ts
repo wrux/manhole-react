@@ -138,7 +138,24 @@ export const COUNTRY_BY_SLUG_QUERY = defineQuery(`
     _type,
     _createdAt,
     _updatedAt,
+    name,
+    nameLocalised,
+    type,
+    emoji,
     "slug": slug.current,
-    title,
+    type == 'country' => {
+      countryCode,
+    },
+    "posts": *[_type=="post" && references(^._id)]|order(_createdAt desc) {
+      _id,
+      _rev,
+      _type,
+      _createdAt,
+      _updatedAt,
+      ${locationsFragment},
+      ${imageFragment},
+      "slug": slug.current,
+      title,
+    },
   }
 `);
