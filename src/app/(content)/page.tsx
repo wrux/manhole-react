@@ -16,8 +16,8 @@ export default async function Home() {
   return (
     <article className="my-space container">
       <TileGrid>
-        <Card className="col-span-2 xl:col-span-1">
-          <CardContent className="p-space flex h-full flex-col gap-3">
+        <Card className="col-span-1 sm:col-span-2 xl:col-span-1">
+          <CardContent className="flex h-full flex-col gap-3">
             <h1 className="flex flex-col justify-start gap-4">
               <div
                 className="circle text-5xl"
@@ -58,9 +58,17 @@ export default async function Home() {
           />
         ))}
 
-        <Card>
-          <CardContent className="p-space flex h-full flex-col gap-3">
-            <Button asChild size="lg" className="mr-auto">
+        <Card className="col-span-full xl:col-span-1">
+          <CardContent className="flex h-full flex-col items-center justify-center gap-3 text-center">
+            <div
+              className="circle text-3xl"
+              aria-hidden="true"
+              user-select="none"
+            ></div>
+            <p className={cn(typographyVariants({ variant: 'h3' }), 'block')}>
+              We have many more manhole covers to show you.
+            </p>
+            <Button asChild size="lg">
               <Link href="/gallery">View Full Gallery</Link>
             </Button>
           </CardContent>
