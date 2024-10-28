@@ -17,7 +17,7 @@ export default async function Home() {
     <article className="my-space container">
       <TileGrid>
         <Card className="col-span-1 sm:col-span-2 xl:col-span-1">
-          <CardContent className="flex h-full flex-col gap-3">
+          <CardContent className="p-space flex h-full flex-col gap-3">
             <h1 className="flex flex-col justify-start gap-4">
               <div
                 className="circle text-5xl"
@@ -59,7 +59,7 @@ export default async function Home() {
         ))}
 
         <Card className="col-span-full xl:col-span-1">
-          <CardContent className="flex h-full flex-col items-center justify-center gap-3 text-center">
+          <CardContent className="p-space flex h-full flex-col items-center justify-center gap-3 text-center">
             <div
               className="circle text-3xl"
               aria-hidden="true"

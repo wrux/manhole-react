@@ -42,7 +42,7 @@ export default function Credits({ credits }: CreditsProps) {
                 {credit?.person?.website ? (
                   <a
                     href={credit?.person?.website}
-                    className="link"
+                    className="link-underline"
                     target="_blank"
                     rel="noreferrer"
                   >
