@@ -29,7 +29,7 @@ export default function PostTeaser({
   });
 
   return (
-    <Card className="link-box group relative aspect-square overflow-hidden bg-gray-300">
+    <Card className="link-box group relative aspect-square overflow-hidden">
       {mainImage && imageProps && (
         <Image
           {...imageProps}
@@ -42,7 +42,7 @@ export default function PostTeaser({
         />
       )}
 
-      <CardContent className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/60 to-transparent p-4 xl:p-6">
+      <CardContent className="p-space absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/60 to-transparent">
         <div className="space-y-3 text-white">
           {locations && locations.length > 0 && (
             <LocationList
