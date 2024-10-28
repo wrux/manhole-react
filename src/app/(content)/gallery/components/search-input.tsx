@@ -4,21 +4,34 @@ import { MagnifyingGlass } from '@phosphor-icons/react';
 import { useEffect, useState } from 'react';
 import { useGalleryContext } from './gallery-provider';
 
-const DEBOUNCE_DELAY = 100;
+const DEBOUNCE_DELAY = 500;
 
 export function SearchInput() {
-  const { query, setQuery } = useGalleryContext();
+  const { isTyping, setIsTyping, query, setQuery } = useGalleryContext();
   const [searchTerm, setSearchTerm] = useState(query);
 
   useEffect(() => {
+    if (searchTerm === query) return;
+
     const handler = setTimeout(() => {
       setQuery(searchTerm || null);
+      if (isTyping) {
+        setIsTyping(false);
+      }
     }, DEBOUNCE_DELAY);
+
+    if (searchTerm === '') {
+      setQuery(null);
+      clearTimeout(handler);
+      return;
+    }
+
+    setIsTyping(true);
 
     return () => {
       clearTimeout(handler);
     };
-  }, [searchTerm, query, setQuery]);
+  }, [searchTerm, isTyping, setIsTyping, query, setQuery]);
 
   return (
     <div className="relative flex flex-1">
@@ -30,7 +43,9 @@ export function SearchInput() {
         type="search"
         placeholder="Search"
         value={searchTerm || ''}
-        onInput={(event) => setSearchTerm(event.currentTarget.value.trim())}
+        onInput={(event) => {
+          setSearchTerm(event.currentTarget.value.trim());
+        }}
         tabIndex={1}
       />
     </div>

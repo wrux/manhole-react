@@ -10,6 +10,8 @@ import React, {
 } from 'react';
 
 interface QueryContextProps {
+  isTyping: boolean;
+  setIsTyping: (isTyping: boolean) => void;
   query: string | null;
   setQuery: (query: string | null) => void;
 }
@@ -34,6 +36,7 @@ export const GalleryProvider: React.FC<GalleryProviderProps> = ({
   children,
   defaultQuery,
 }) => {
+  const [isTyping, setIsTyping] = useState<boolean>(false);
   const [query, setQuery] = useState<string | null>(defaultQuery);
   const router = useRouter();
 
@@ -51,7 +54,7 @@ export const GalleryProvider: React.FC<GalleryProviderProps> = ({
   }, [query, router]);
 
   return (
-    <QueryContext.Provider value={{ query, setQuery }}>
+    <QueryContext.Provider value={{ isTyping, setIsTyping, query, setQuery }}>
       {children}
     </QueryContext.Provider>
   );

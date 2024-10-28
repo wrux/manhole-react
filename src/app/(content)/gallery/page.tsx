@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { Suspense } from 'react';
 import { PostTeaserPlaceholder } from '~/components/ui/common/post-teaser';
-import TileGrid from '~/components/ui/common/tile-grid';
+import GalleryGrid from './components/gallery-grid';
 import GalleryItems from './components/gallery-items';
 import { GalleryProvider } from './components/gallery-provider';
 import { SearchInput } from './components/search-input';
@@ -9,7 +9,7 @@ import { SearchInput } from './components/search-input';
 export default async function GalleryPage({
   searchParams,
 }: {
-  searchParams: Promise<{ query?: string }>;
+  searchParams: Promise<{ query: string | null }>;
 }) {
   const { query } = await searchParams;
 
@@ -26,7 +26,7 @@ export default async function GalleryPage({
           </Link>
           <SearchInput />
         </div>
-        <TileGrid>
+        <GalleryGrid>
           <Suspense
             fallback={
               <>
@@ -38,7 +38,7 @@ export default async function GalleryPage({
           >
             <GalleryItems query={query} />
           </Suspense>
-        </TileGrid>
+        </GalleryGrid>
       </div>
     </GalleryProvider>
   );
