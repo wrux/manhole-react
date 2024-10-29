@@ -66,7 +66,7 @@ export default function LocationList({
             );
           }
 
-          return component;
+          return <span key={location._id}>{component}</span>;
         })}
     </div>
   );

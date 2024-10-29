@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import Credits from '~/components/ui/common/credits';
 import LocationList from '~/components/ui/common/location-list';
 import LogoTitle from '~/components/ui/common/logo-title';
+import { portableTextComponents } from '~/lib/portable-text';
 import { client } from '~/sanity/lib/client';
 import { POST_BY_SLUG_QUERY, POST_SLUG_QUERY } from '~/sanity/lib/queries';
 import MainImage from './components/main-image';
@@ -53,7 +54,10 @@ export default async function PostPage(props: {
 
             {post?.summary && post.summary.length > 0 && (
               <div className="max-w-prose">
-                <PortableText value={post.summary} />
+                <PortableText
+                  value={post.summary}
+                  components={portableTextComponents}
+                />
               </div>
             )}
 
