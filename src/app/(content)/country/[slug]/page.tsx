@@ -8,12 +8,9 @@ import {
   COUNTRY_SLUG_QUERY,
 } from '~/sanity/lib/queries';
 
-export async function getStaticPaths() {
-  const slugs = await client.fetch(COUNTRY_SLUG_QUERY);
-  return {
-    paths: slugs.map((slug) => ({ params: { slug } })),
-    fallback: true,
-  };
+export async function generateStaticParams() {
+  const countries = await client.fetch(COUNTRY_SLUG_QUERY);
+  return countries.map((slug) => ({ slug }));
 }
 
 export default async function PostPage(props: {

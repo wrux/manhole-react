@@ -14,6 +14,7 @@ export default async function GalleryItems({
 
   if (query && query !== '') {
     posts = await cdnClient.fetch(POST_SEARCH_QUERY, {
+      // @ts-expect-error Query isn't typed using Sanity's query typegen
       query,
     });
   } else {

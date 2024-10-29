@@ -31,7 +31,8 @@ export default function Credits({ credits }: CreditsProps) {
 
       <div className="space-y-1.5">
         {credits.map((credit) => {
-          const label = labels?.[credit.type];
+          const label =
+            credit.type !== undefined ? labels?.[credit?.type] : null;
 
           return (
             <div key={credit._key}>

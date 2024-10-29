@@ -4,11 +4,9 @@ import { useNextSanityImage } from 'next-sanity-image';
 import Image from 'next/image';
 import { client } from '~/sanity/lib/client';
 import { squareImageUrlBuilder } from '~/sanity/lib/image';
-import { POST_BY_SLUG_QUERYResult } from '~/sanity/types';
+import { type MainImage } from '~/sanity/types.derrived';
 
-type MainImageType = POST_BY_SLUG_QUERYResult['mainImage'];
-
-export default function MainImage({ image }: { image: MainImageType }) {
+export default function MainImage({ image }: { image: MainImage }) {
   const imageProps = useNextSanityImage(client, image, {
     imageBuilder: squareImageUrlBuilder,
   });

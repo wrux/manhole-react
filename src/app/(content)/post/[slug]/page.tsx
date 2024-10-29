@@ -8,12 +8,9 @@ import { client } from '~/sanity/lib/client';
 import { POST_BY_SLUG_QUERY, POST_SLUG_QUERY } from '~/sanity/lib/queries';
 import MainImage from './components/main-image';
 
-export async function getStaticPaths() {
-  const slugs = await client.fetch(POST_SLUG_QUERY);
-  return {
-    paths: slugs.map((slug) => ({ params: { slug } })),
-    fallback: true,
-  };
+export async function generateStaticParams() {
+  const posts = await client.fetch(POST_SLUG_QUERY);
+  return posts.map((slug) => ({ slug }));
 }
 
 export default async function PostPage(props: {
