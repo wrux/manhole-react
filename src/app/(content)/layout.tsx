@@ -19,11 +19,7 @@ function SiteFooter() {
     <footer className="pb-12 pt-8 lg:pb-20 lg:pt-12">
       <div className="container">
         <div className="flex items-center gap-4">
-          <Link
-            className="block w-full text-lg md:w-auto lg:text-2xl"
-            href="/"
-            aria-label="Go to homepage"
-          >
+          <Link className="block text-lg" href="/" aria-label="Go to homepage">
             <div className="circle" aria-hidden="true" user-select="none"></div>
           </Link>
 
