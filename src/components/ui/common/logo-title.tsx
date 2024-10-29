@@ -8,7 +8,7 @@ export type LogoTitleProps = {
 
 export default function LogoTitle({ title }: LogoTitleProps) {
   return (
-    <div className="gap-space flex items-center">
+    <div className="gap-space flex items-start">
       <Link
         className="text-lg lg:text-2xl"
         href="/"
@@ -20,7 +20,7 @@ export default function LogoTitle({ title }: LogoTitleProps) {
       <h1
         className={cn(
           typographyVariants({ variant: 'h2' }),
-          'inline-block !leading-none',
+          'mt-0.5 inline-block',
         )}
       >
         {title}

@@ -63,6 +63,7 @@ export default function PostTeaser({
                   name: location.name,
                   slug: location.slug,
                   emoji: location?.emoji,
+                  type: location?.type,
                 }))}
             />
           )}

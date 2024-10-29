@@ -10,6 +10,7 @@ export type LocationListProps = {
     emoji: string | null;
     name: string | null;
     slug: string | null;
+    type?: 'country' | 'city' | null;
   }[];
 };
 
@@ -28,11 +29,18 @@ export default function LocationList({
     >
       {locations
         .filter((location) => !!location.name && !!location.slug)
-        .map((location) => (
-          <Link href={`/country/${location.slug}`} key={location._id}>
+        .map((location) => {
+          const component = (
             <Badge
               variant="outline"
-              className="cursor-pointer rounded-full border-zinc-800 bg-zinc-900 px-2.5 py-1 text-xs text-zinc-300 transition-colors duration-200 hover:bg-zinc-800"
+              className={cn(
+                'rounded-full border-zinc-800 bg-zinc-900 px-2.5 py-1 text-xs text-zinc-300',
+                {
+                  'cursor-pointer transition-colors duration-200 hover:bg-zinc-800':
+                    location?.type === 'country',
+                  'opacity-70': location?.type === 'city',
+                },
+              )}
             >
               {location?.emoji && (
                 <span
@@ -45,8 +53,21 @@ export default function LocationList({
               )}
               {location.name}
             </Badge>
-          </Link>
-        ))}
+          );
+
+          if (location?.type === 'country') {
+            return (
+              <Link
+                href={`/${location.type}/${location.slug}`}
+                key={location._id}
+              >
+                {component}
+              </Link>
+            );
+          }
+
+          return component;
+        })}
     </div>
   );
 }

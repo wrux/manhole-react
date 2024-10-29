@@ -46,6 +46,7 @@ export default async function PostPage(props: {
                   name: location.name,
                   slug: location.slug,
                   emoji: location?.emoji,
+                  type: location?.type,
                 }))}
               />
             )}
