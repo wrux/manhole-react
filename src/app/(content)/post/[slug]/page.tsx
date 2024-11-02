@@ -1,4 +1,3 @@
-import { Metadata } from 'next';
 import { PortableText } from 'next-sanity';
 import { notFound } from 'next/navigation';
 import Credits from '~/components/ui/common/credits';
@@ -7,6 +6,7 @@ import LogoTitle from '~/components/ui/common/logo-title';
 import { portableTextComponents } from '~/lib/portable-text';
 import { client } from '~/sanity/lib/client';
 import { POST_BY_SLUG_QUERY, POST_SLUG_QUERY } from '~/sanity/lib/queries';
+import { getSeoData, prepareMetaData } from '~/sanity/lib/seo';
 import MainImage from './components/main-image';
 
 export async function generateStaticParams() {
@@ -20,33 +20,12 @@ type Props = {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-
-  const post = await client.fetch(POST_BY_SLUG_QUERY, { slug });
-
-  console.log('SEO', post);
-
-  return {
-    title: post?.seo?.metaTitle || post?.title,
-    description: post?.seo?.metaDescription,
-    // openGraph: {
-    //   images: post?.seo?.openGraphImages,
-    // },
-    robots: post?.seo?.robots,
-    // canonical: post?.seo?.canonical || `https://manhole.gallery/post/${slug}`,
-  };
-
-  // // fetch data
-  // const product = await fetch(`https://.../${id}`).then((res) => res.json())
-
-  // // optionally access and extend (rather than replace) parent metadata
-  // const previousImages = (await parent).openGraph?.images || []
-
-  // return {
-  //   title: product.title,
-  //   openGraph: {
-  //     images: ['/some-specific-page-image.jpg', ...previousImages],
-  //   },
-  // }
+  const post = await getSeoData({
+    slug,
+    documentType: 'post',
+    reducer: prepareMetaData,
+  });
+  return post;
 }
 
 export default async function PostPage(props: Props) {
@@ -59,7 +38,7 @@ export default async function PostPage(props: Props) {
   }
 
   return (
-    <div className="my-space space-y-space container">
+    <div className="container my-space space-y-space">
       <article>
         <div className="grid gap-6 md:grid-cols-12">
           <div className="md:order-2 md:col-span-7">

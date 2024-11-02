@@ -317,9 +317,6 @@ export type AllSanitySchemaTypes =
   | SanityImageMetadata;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./src/sanity/lib/queries.ts
-// Variable: seo
-// Query: seo {   _type,  metaTitle,  nofollowAttributes,  seoKeywords,  metaDescription,  openGraph{   _type,  siteName,  url,  description,  title,  image {   _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset->{...} } },  twitter {   _type,  site,  creator,  cardType,  handle },  additionalMetaTags[]{    _type,    metaAttributes[]{   _type,  attributeValueString,  attributeType,  attributeKey,  attributeValueImage{   _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset->{...} } },  }, }
-export type SeoResult = never;
 // Variable: POST_TEASER_QUERY
 // Query: *[_type=="post"]|order(_createdAt desc)[0...$limit] {    _id,    _rev,    _type,    _createdAt,    _updatedAt,    locations[]-> {  _id,  _rev,  _type,  _createdAt,  _updatedAt,  name,  nameLocalised,  type,  emoji,  "slug": slug.current,  type == 'country' => {    countryCode,  },},    mainImage {    ...,    asset -> {      ...,      "alt": altText,      metadata {        lqip,        dimensions      },    },  },    "slug": slug.current,    title,  }
 export type POST_TEASER_QUERYResult = Array<{
@@ -393,7 +390,7 @@ export type POST_TEASER_QUERYResult = Array<{
 // Query: *[_type=="post"].slug.current
 export type POST_SLUG_QUERYResult = Array<string | null>;
 // Variable: POST_BY_SLUG_QUERY
-// Query: *[_type=="post" && slug.current == $slug][0] {    _id,    _rev,    _type,    _createdAt,    _updatedAt,    body,    "bodyHTML": pt::text(body),    credits[] {      ...,      person-> {        _id,        fullName,        website,      },    },    gallery,    locations[]-> {  _id,  _rev,  _type,  _createdAt,  _updatedAt,  name,  nameLocalised,  type,  emoji,  "slug": slug.current,  type == 'country' => {    countryCode,  },},    mainImage {    ...,    asset -> {      ...,      "alt": altText,      metadata {        lqip,        dimensions      },    },  },    "metaDescription": pt::text(summary),    "morePosts": *[_type=="post" && _id != ^._id]|order(_createdAt desc)[0...6] {      _id,      _rev,      _type,      _createdAt,      _updatedAt,      mainImage {    ...,    asset -> {      ...,      "alt": altText,      metadata {        lqip,        dimensions      },    },  },      "slug": slug.current,      title,    },    "slug": slug.current,    summary,    "summaryHTML": pt::text(summary),    title,    seo {   _type,  metaTitle,  nofollowAttributes,  seoKeywords,  metaDescription,  openGraph{   _type,  siteName,  url,  description,  title,  image {   _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset->{...} } },  twitter {   _type,  site,  creator,  cardType,  handle },  additionalMetaTags[]{    _type,    metaAttributes[]{   _type,  attributeValueString,  attributeType,  attributeKey,  attributeValueImage{   _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset->{...} } },  }, },  }
+// Query: *[_type=="post" && slug.current == $slug][0] {    _id,    _rev,    _type,    _createdAt,    _updatedAt,    body,    "bodyHTML": pt::text(body),    credits[] {      ...,      person-> {        _id,        fullName,        website,      },    },    gallery,    locations[]-> {  _id,  _rev,  _type,  _createdAt,  _updatedAt,  name,  nameLocalised,  type,  emoji,  "slug": slug.current,  type == 'country' => {    countryCode,  },},    mainImage {    ...,    asset -> {      ...,      "alt": altText,      metadata {        lqip,        dimensions      },    },  },    "metaDescription": pt::text(summary),    "morePosts": *[_type=="post" && _id != ^._id]|order(_createdAt desc)[0...6] {      _id,      _rev,      _type,      _createdAt,      _updatedAt,      mainImage {    ...,    asset -> {      ...,      "alt": altText,      metadata {        lqip,        dimensions      },    },  },      "slug": slug.current,      title,    },    "slug": slug.current,    summary,    "summaryHTML": pt::text(summary),    title,  }
 export type POST_BY_SLUG_QUERYResult = {
   _id: string;
   _rev: string;
@@ -534,114 +531,6 @@ export type POST_BY_SLUG_QUERYResult = {
   }> | null;
   summaryHTML: string;
   title: string | null;
-  seo: {
-    _type: 'seoMetaFields';
-    metaTitle: string | null;
-    nofollowAttributes: boolean | null;
-    seoKeywords: Array<string> | null;
-    metaDescription: string | null;
-    openGraph: {
-      _type: 'openGraph';
-      siteName: string | null;
-      url: string | null;
-      description: string | null;
-      title: string | null;
-      image: {
-        _type: 'image';
-        crop: {
-          _type: 'sanity.imageCrop';
-          right: number | null;
-          top: number | null;
-          left: number | null;
-          bottom: number | null;
-        } | null;
-        hotspot: {
-          _type: 'sanity.imageHotspot';
-          x: number | null;
-          y: number | null;
-          height: number | null;
-          width: number | null;
-        } | null;
-        asset: {
-          _id: string;
-          _type: 'sanity.imageAsset';
-          _createdAt: string;
-          _updatedAt: string;
-          _rev: string;
-          originalFilename?: string;
-          label?: string;
-          title?: string;
-          description?: string;
-          altText?: string;
-          sha1hash?: string;
-          extension?: string;
-          mimeType?: string;
-          size?: number;
-          assetId?: string;
-          uploadId?: string;
-          path?: string;
-          url?: string;
-          metadata?: SanityImageMetadata;
-          source?: SanityAssetSourceData;
-        } | null;
-      } | null;
-    } | null;
-    twitter: {
-      _type: 'twitter';
-      site: string | null;
-      creator: string | null;
-      cardType: string | null;
-      handle: string | null;
-    } | null;
-    additionalMetaTags: Array<{
-      _type: 'metaTag';
-      metaAttributes: Array<{
-        _type: 'metaAttribute';
-        attributeValueString: string | null;
-        attributeType: 'image' | 'string' | null;
-        attributeKey: string | null;
-        attributeValueImage: {
-          _type: 'image';
-          crop: {
-            _type: 'sanity.imageCrop';
-            right: number | null;
-            top: number | null;
-            left: number | null;
-            bottom: number | null;
-          } | null;
-          hotspot: {
-            _type: 'sanity.imageHotspot';
-            x: number | null;
-            y: number | null;
-            height: number | null;
-            width: number | null;
-          } | null;
-          asset: {
-            _id: string;
-            _type: 'sanity.imageAsset';
-            _createdAt: string;
-            _updatedAt: string;
-            _rev: string;
-            originalFilename?: string;
-            label?: string;
-            title?: string;
-            description?: string;
-            altText?: string;
-            sha1hash?: string;
-            extension?: string;
-            mimeType?: string;
-            size?: number;
-            assetId?: string;
-            uploadId?: string;
-            path?: string;
-            url?: string;
-            metadata?: SanityImageMetadata;
-            source?: SanityAssetSourceData;
-          } | null;
-        } | null;
-      }> | null;
-    }> | null;
-  } | null;
 } | null;
 // Variable: POST_SEARCH_QUERY
 // Query: *[_type == "post" && (    title match $query ||    locations[]->name match $query ||    summary[].children[].text match $query ||    body[].children[].text match $query  )]  |score(    pt::text(body) match $query,    boost(title match $query, 3),    boost(pt::text(summary) match $query, 5),  )  |order(_score desc)  {    _id,    _rev,    _type,    _createdAt,    _updatedAt,    locations[]-> {  _id,  _rev,  _type,  _createdAt,  _updatedAt,  name,  nameLocalised,  type,  emoji,  "slug": slug.current,  type == 'country' => {    countryCode,  },},    mainImage {    ...,    asset -> {      ...,      "alt": altText,      metadata {        lqip,        dimensions      },    },  },    "slug": slug.current,    title,  }
@@ -893,18 +782,69 @@ export type COUNTRY_BY_SLUG_QUERYResult =
       }>;
     }
   | null;
+// Variable: DOCUMENT_SEO_DATA_BY_ID
+// Query: *[_id == $id][0] {   "ogTitle": coalesce(    seo.openGraph.title,    seo.metaTitle,    title,    name  ),  "ogDescription": coalesce(    seo.openGraph.description,    seo.metaDescription,    pt::text(summary)  ),  "ogImage": coalesce(    seo.openGraph.image,    mainImage,  ).asset->url + "?w=600&h=600&fit=crop",  "metaTitle": coalesce(    seo.metaTitle,    title,    name  ),  "metaDescription": coalesce(    seo.metaDescription,    pt::text(summary)  ) }
+export type DOCUMENT_SEO_DATA_BY_IDResult =
+  | {
+      ogTitle: string | null;
+      ogDescription: string;
+      ogImage: string | null;
+      metaTitle: string | null;
+      metaDescription: string;
+    }
+  | {
+      ogTitle: null;
+      ogDescription: null | string;
+      ogImage: null;
+      metaTitle: null;
+      metaDescription: null | string;
+    }
+  | {
+      ogTitle: null | string;
+      ogDescription: null | string;
+      ogImage: null;
+      metaTitle: null | string;
+      metaDescription: null | string;
+    }
+  | null;
+// Variable: DOCUMENT_SEO_DATA_BY_SLUG
+// Query: *[_type == $documentType && slug.current == $slug][0] {   "ogTitle": coalesce(    seo.openGraph.title,    seo.metaTitle,    title,    name  ),  "ogDescription": coalesce(    seo.openGraph.description,    seo.metaDescription,    pt::text(summary)  ),  "ogImage": coalesce(    seo.openGraph.image,    mainImage,  ).asset->url + "?w=600&h=600&fit=crop",  "metaTitle": coalesce(    seo.metaTitle,    title,    name  ),  "metaDescription": coalesce(    seo.metaDescription,    pt::text(summary)  ) }
+export type DOCUMENT_SEO_DATA_BY_SLUGResult =
+  | {
+      ogTitle: string | null;
+      ogDescription: string;
+      ogImage: string | null;
+      metaTitle: string | null;
+      metaDescription: string;
+    }
+  | {
+      ogTitle: null;
+      ogDescription: null | string;
+      ogImage: null;
+      metaTitle: null;
+      metaDescription: null | string;
+    }
+  | {
+      ogTitle: null | string;
+      ogDescription: null | string;
+      ogImage: null;
+      metaTitle: null | string;
+      metaDescription: null | string;
+    }
+  | null;
 
 // Query TypeMap
 import '@sanity/client';
 declare module '@sanity/client' {
   interface SanityQueries {
-    'seo { \n  _type,\n  metaTitle,\n  nofollowAttributes,\n  seoKeywords,\n  metaDescription,\n  openGraph{ \n  _type,\n  siteName,\n  url,\n  description,\n  title,\n  image { \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset->{...}\n }\n },\n  twitter { \n  _type,\n  site,\n  creator,\n  cardType,\n  handle\n },\n  additionalMetaTags[]{\n    _type,\n    metaAttributes[]{ \n  _type,\n  attributeValueString,\n  attributeType,\n  attributeKey,\n  attributeValueImage{ \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset->{...}\n }\n },\n  },\n }': SeoResult;
     '\n  *[_type=="post"]|order(_createdAt desc)[0...$limit] {\n    _id,\n    _rev,\n    _type,\n    _createdAt,\n    _updatedAt,\n    locations[]-> {\n  _id,\n  _rev,\n  _type,\n  _createdAt,\n  _updatedAt,\n  name,\n  nameLocalised,\n  type,\n  emoji,\n  "slug": slug.current,\n  type == \'country\' => {\n    countryCode,\n  },\n},\n    mainImage {\n    ...,\n    asset -> {\n      ...,\n      "alt": altText,\n      metadata {\n        lqip,\n        dimensions\n      },\n    },\n  }\n,\n    "slug": slug.current,\n    title,\n  }\n': POST_TEASER_QUERYResult;
     '\n  *[_type=="post"].slug.current\n': POST_SLUG_QUERYResult;
-    '\n  *[_type=="post" && slug.current == $slug][0] {\n    _id,\n    _rev,\n    _type,\n    _createdAt,\n    _updatedAt,\n    body,\n    "bodyHTML": pt::text(body),\n    credits[] {\n      ...,\n      person-> {\n        _id,\n        fullName,\n        website,\n      },\n    },\n    gallery,\n    locations[]-> {\n  _id,\n  _rev,\n  _type,\n  _createdAt,\n  _updatedAt,\n  name,\n  nameLocalised,\n  type,\n  emoji,\n  "slug": slug.current,\n  type == \'country\' => {\n    countryCode,\n  },\n},\n    mainImage {\n    ...,\n    asset -> {\n      ...,\n      "alt": altText,\n      metadata {\n        lqip,\n        dimensions\n      },\n    },\n  }\n,\n    "metaDescription": pt::text(summary),\n    "morePosts": *[_type=="post" && _id != ^._id]|order(_createdAt desc)[0...6] {\n      _id,\n      _rev,\n      _type,\n      _createdAt,\n      _updatedAt,\n      mainImage {\n    ...,\n    asset -> {\n      ...,\n      "alt": altText,\n      metadata {\n        lqip,\n        dimensions\n      },\n    },\n  }\n,\n      "slug": slug.current,\n      title,\n    },\n    "slug": slug.current,\n    summary,\n    "summaryHTML": pt::text(summary),\n    title,\n    seo { \n  _type,\n  metaTitle,\n  nofollowAttributes,\n  seoKeywords,\n  metaDescription,\n  openGraph{ \n  _type,\n  siteName,\n  url,\n  description,\n  title,\n  image { \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset->{...}\n }\n },\n  twitter { \n  _type,\n  site,\n  creator,\n  cardType,\n  handle\n },\n  additionalMetaTags[]{\n    _type,\n    metaAttributes[]{ \n  _type,\n  attributeValueString,\n  attributeType,\n  attributeKey,\n  attributeValueImage{ \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset->{...}\n }\n },\n  },\n },\n  }\n': POST_BY_SLUG_QUERYResult;
+    '\n  *[_type=="post" && slug.current == $slug][0] {\n    _id,\n    _rev,\n    _type,\n    _createdAt,\n    _updatedAt,\n    body,\n    "bodyHTML": pt::text(body),\n    credits[] {\n      ...,\n      person-> {\n        _id,\n        fullName,\n        website,\n      },\n    },\n    gallery,\n    locations[]-> {\n  _id,\n  _rev,\n  _type,\n  _createdAt,\n  _updatedAt,\n  name,\n  nameLocalised,\n  type,\n  emoji,\n  "slug": slug.current,\n  type == \'country\' => {\n    countryCode,\n  },\n},\n    mainImage {\n    ...,\n    asset -> {\n      ...,\n      "alt": altText,\n      metadata {\n        lqip,\n        dimensions\n      },\n    },\n  }\n,\n    "metaDescription": pt::text(summary),\n    "morePosts": *[_type=="post" && _id != ^._id]|order(_createdAt desc)[0...6] {\n      _id,\n      _rev,\n      _type,\n      _createdAt,\n      _updatedAt,\n      mainImage {\n    ...,\n    asset -> {\n      ...,\n      "alt": altText,\n      metadata {\n        lqip,\n        dimensions\n      },\n    },\n  }\n,\n      "slug": slug.current,\n      title,\n    },\n    "slug": slug.current,\n    summary,\n    "summaryHTML": pt::text(summary),\n    title,\n  }\n': POST_BY_SLUG_QUERYResult;
     '\n  *[_type == "post" && (\n    title match $query ||\n    locations[]->name match $query ||\n    summary[].children[].text match $query ||\n    body[].children[].text match $query\n  )]\n  |score(\n    pt::text(body) match $query,\n    boost(title match $query, 3),\n    boost(pt::text(summary) match $query, 5),\n  )\n  |order(_score desc)\n  {\n    _id,\n    _rev,\n    _type,\n    _createdAt,\n    _updatedAt,\n    locations[]-> {\n  _id,\n  _rev,\n  _type,\n  _createdAt,\n  _updatedAt,\n  name,\n  nameLocalised,\n  type,\n  emoji,\n  "slug": slug.current,\n  type == \'country\' => {\n    countryCode,\n  },\n},\n    mainImage {\n    ...,\n    asset -> {\n      ...,\n      "alt": altText,\n      metadata {\n        lqip,\n        dimensions\n      },\n    },\n  }\n,\n    "slug": slug.current,\n    title,\n  }\n': POST_SEARCH_QUERYResult;
     '\n  *[_type == "location" && type == "country"] {\n    _id,\n    _rev,\n    _type,\n    _createdAt,\n    _updatedAt,\n    name,\n    nameLocalised,\n    type,\n    emoji,\n    countryCode,\n    "slug": slug.current,\n  }\n': COUNTRY_LIST_QUERYResult;
     '\n  *[_type == "location" && type == "country"].slug.current\n': COUNTRY_SLUG_QUERYResult;
     '\n  *[_type == "location" && type == "country" && slug.current == $slug][0] {\n    _id,\n    _rev,\n    _type,\n    _createdAt,\n    _updatedAt,\n    name,\n    nameLocalised,\n    type,\n    emoji,\n    "slug": slug.current,\n    type == \'country\' => {\n      countryCode,\n    },\n    "posts": *[_type=="post" && references(^._id)]|order(_createdAt desc) {\n      _id,\n      _rev,\n      _type,\n      _createdAt,\n      _updatedAt,\n      locations[]-> {\n  _id,\n  _rev,\n  _type,\n  _createdAt,\n  _updatedAt,\n  name,\n  nameLocalised,\n  type,\n  emoji,\n  "slug": slug.current,\n  type == \'country\' => {\n    countryCode,\n  },\n},\n      mainImage {\n    ...,\n    asset -> {\n      ...,\n      "alt": altText,\n      metadata {\n        lqip,\n        dimensions\n      },\n    },\n  }\n,\n      "slug": slug.current,\n      title,\n    },\n  }\n': COUNTRY_BY_SLUG_QUERYResult;
+    '\n  *[_id == $id][0] { \n  "ogTitle": coalesce(\n    seo.openGraph.title,\n    seo.metaTitle,\n    title,\n    name\n  ),\n  "ogDescription": coalesce(\n    seo.openGraph.description,\n    seo.metaDescription,\n    pt::text(summary)\n  ),\n  "ogImage": coalesce(\n    seo.openGraph.image,\n    mainImage,\n  ).asset->url + "?w=600&h=600&fit=crop",\n  "metaTitle": coalesce(\n    seo.metaTitle,\n    title,\n    name\n  ),\n  "metaDescription": coalesce(\n    seo.metaDescription,\n    pt::text(summary)\n  )\n }\n': DOCUMENT_SEO_DATA_BY_IDResult;
+    '\n  *[_type == $documentType && slug.current == $slug][0] { \n  "ogTitle": coalesce(\n    seo.openGraph.title,\n    seo.metaTitle,\n    title,\n    name\n  ),\n  "ogDescription": coalesce(\n    seo.openGraph.description,\n    seo.metaDescription,\n    pt::text(summary)\n  ),\n  "ogImage": coalesce(\n    seo.openGraph.image,\n    mainImage,\n  ).asset->url + "?w=600&h=600&fit=crop",\n  "metaTitle": coalesce(\n    seo.metaTitle,\n    title,\n    name\n  ),\n  "metaDescription": coalesce(\n    seo.metaDescription,\n    pt::text(summary)\n  )\n }\n': DOCUMENT_SEO_DATA_BY_SLUGResult;
   }
 }
