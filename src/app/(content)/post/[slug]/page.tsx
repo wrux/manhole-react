@@ -1,3 +1,4 @@
+import { Metadata } from 'next';
 import { PortableText } from 'next-sanity';
 import { notFound } from 'next/navigation';
 import Credits from '~/components/ui/common/credits';
@@ -13,11 +14,43 @@ export async function generateStaticParams() {
   return posts.map((slug) => ({ slug }));
 }
 
-export default async function PostPage(props: {
+type Props = {
   params: Promise<{ slug: string }>;
-}) {
-  const params = await props.params;
+};
 
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params;
+
+  const post = await client.fetch(POST_BY_SLUG_QUERY, { slug });
+
+  console.log('SEO', post);
+
+  return {
+    title: post?.seo?.metaTitle || post?.title,
+    description: post?.seo?.metaDescription,
+    // openGraph: {
+    //   images: post?.seo?.openGraphImages,
+    // },
+    robots: post?.seo?.robots,
+    // canonical: post?.seo?.canonical || `https://manhole.gallery/post/${slug}`,
+  };
+
+  // // fetch data
+  // const product = await fetch(`https://.../${id}`).then((res) => res.json())
+
+  // // optionally access and extend (rather than replace) parent metadata
+  // const previousImages = (await parent).openGraph?.images || []
+
+  // return {
+  //   title: product.title,
+  //   openGraph: {
+  //     images: ['/some-specific-page-image.jpg', ...previousImages],
+  //   },
+  // }
+}
+
+export default async function PostPage(props: Props) {
+  const params = await props.params;
   const { slug } = params;
 
   const post = await client.fetch(POST_BY_SLUG_QUERY, { slug });
