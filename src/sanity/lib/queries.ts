@@ -159,3 +159,43 @@ export const COUNTRY_BY_SLUG_QUERY = defineQuery(`
     },
   }
 `);
+
+const SEO_FIELDS = `
+  "ogTitle": coalesce(
+    seo.openGraph.title,
+    seo.metaTitle,
+    title,
+    name,
+    *[_id == 'homepage'][0].seo.openGraph.title,
+  ),
+  "ogDescription": coalesce(
+    seo.openGraph.description,
+    seo.metaDescription,
+    pt::text(summary),
+    *[_id == 'homepage'][0].seo.openGraph.description,
+  ),
+  "ogImage": coalesce(
+    seo.openGraph.image,
+    mainImage,
+    *[_id == 'homepage'][0].seo.openGraph.image,
+  ).asset->url + "?w=600&h=600&fit=crop",
+  "metaTitle": coalesce(
+    seo.metaTitle,
+    title,
+    name,
+    *[_id == 'homepage'][0].seo.metaTitle,
+  ),
+  "metaDescription": coalesce(
+    seo.metaDescription,
+    pt::text(summary),
+    *[_id == 'homepage'][0].seo.metaDescription,
+  )
+`;
+
+export const DOCUMENT_SEO_DATA_BY_ID = defineQuery(`
+  *[_id == $id][0] { ${SEO_FIELDS} }
+`);
+
+export const DOCUMENT_SEO_DATA_BY_SLUG = defineQuery(`
+  *[_type == $documentType && slug.current == $slug][0] { ${SEO_FIELDS} }
+`);

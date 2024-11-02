@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.dev/svgjs" width="1000" height="1000"><svg width="1000" height="1000" viewBox="0 0 1000 1000" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="1000" height="1000" rx="250" fill="black"></rect>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M500 718.524C620.687 718.524 718.524 620.687 718.524 500C718.524 379.313 620.687 281.476 500 281.476C379.313 281.476 281.476 379.313 281.476 500C281.476 620.687 379.313 718.524 500 718.524ZM500 853C694.957 853 853 694.957 853 500C853 305.043 694.957 147 500 147C305.043 147 147 305.043 147 500C147 694.957 305.043 853 500 853Z" fill="white"></path>
+</svg><style>@media (prefers-color-scheme: light) { :root { filter: none; } }
+@media (prefers-color-scheme: dark) { :root { filter: invert(100%); } }
+</style></svg>

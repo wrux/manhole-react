@@ -68,6 +68,16 @@ export type Geopoint = {
   alt?: number;
 };
 
+export type Settings = {
+  _id: string;
+  _type: 'settings';
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  Name?: string;
+  seo?: SeoMetaFields;
+};
+
 export type Post = {
   _id: string;
   _type: 'post';
@@ -124,6 +134,128 @@ export type Post = {
     crop?: SanityImageCrop;
     _type: 'image';
   };
+  seo?: SeoMetaFields;
+};
+
+export type Person = {
+  _id: string;
+  _type: 'person';
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  fullName?: string;
+  email?: string;
+  website?: string;
+};
+
+export type Location = {
+  _id: string;
+  _type: 'location';
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name?: string;
+  nameLocalised?: string;
+  type?: 'country' | 'city';
+  slug?: Slug;
+  emoji?: string;
+  countryCode?: string;
+};
+
+export type Slug = {
+  _type: 'slug';
+  current?: string;
+  source?: string;
+};
+
+export type Homepage = {
+  _id: string;
+  _type: 'homepage';
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  seo?: SeoMetaFields;
+};
+
+export type MetaTag = {
+  _type: 'metaTag';
+  metaAttributes?: Array<
+    {
+      _key: string;
+    } & MetaAttribute
+  >;
+};
+
+export type MetaAttribute = {
+  _type: 'metaAttribute';
+  attributeKey?: string;
+  attributeType?: 'string' | 'image';
+  attributeValueImage?: {
+    asset?: {
+      _ref: string;
+      _type: 'reference';
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: 'image';
+  };
+  attributeValueString?: string;
+};
+
+export type SeoMetaFields = {
+  _type: 'seoMetaFields';
+  nofollowAttributes?: boolean;
+  metaTitle?: string;
+  metaDescription?: string;
+  metaImage?: {
+    asset?: {
+      _ref: string;
+      _type: 'reference';
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: 'image';
+  };
+  seoKeywords?: Array<string>;
+  openGraph?: OpenGraph;
+  additionalMetaTags?: Array<
+    {
+      _key: string;
+    } & MetaTag
+  >;
+  twitter?: Twitter;
+};
+
+export type Twitter = {
+  _type: 'twitter';
+  cardType?: string;
+  creator?: string;
+  site?: string;
+  handle?: string;
+};
+
+export type OpenGraph = {
+  _type: 'openGraph';
+  url?: string;
+  image?: {
+    asset?: {
+      _ref: string;
+      _type: 'reference';
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: 'image';
+  };
+  title?: string;
+  description?: string;
+  siteName?: string;
 };
 
 export type SanityImageCrop = {
@@ -183,52 +315,28 @@ export type SanityImageMetadata = {
   isOpaque?: boolean;
 };
 
-export type Person = {
-  _id: string;
-  _type: 'person';
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  fullName?: string;
-  email?: string;
-  website?: string;
-};
-
-export type Location = {
-  _id: string;
-  _type: 'location';
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  name?: string;
-  nameLocalised?: string;
-  type?: 'country' | 'city';
-  slug?: Slug;
-  emoji?: string;
-  countryCode?: string;
-};
-
-export type Slug = {
-  _type: 'slug';
-  current?: string;
-  source?: string;
-};
-
 export type AllSanitySchemaTypes =
   | SanityImagePaletteSwatch
   | SanityImagePalette
   | SanityImageDimensions
   | SanityFileAsset
   | Geopoint
+  | Settings
   | Post
+  | Person
+  | Location
+  | Slug
+  | Homepage
+  | MetaTag
+  | MetaAttribute
+  | SeoMetaFields
+  | Twitter
+  | OpenGraph
   | SanityImageCrop
   | SanityImageHotspot
   | SanityImageAsset
   | SanityAssetSourceData
-  | SanityImageMetadata
-  | Person
-  | Location
-  | Slug;
+  | SanityImageMetadata;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./src/sanity/lib/queries.ts
 // Variable: POST_TEASER_QUERY
@@ -696,6 +804,42 @@ export type COUNTRY_BY_SLUG_QUERYResult =
       }>;
     }
   | null;
+// Variable: DOCUMENT_SEO_DATA_BY_ID
+// Query: *[_id == $id][0] {   "ogTitle": coalesce(    seo.openGraph.title,    seo.metaTitle,    title,    name,    *[_id == 'homepage'][0].seo.openGraph.title,  ),  "ogDescription": coalesce(    seo.openGraph.description,    seo.metaDescription,    pt::text(summary),    *[_id == 'homepage'][0].seo.openGraph.description,  ),  "ogImage": coalesce(    seo.openGraph.image,    mainImage,    *[_id == 'homepage'][0].seo.openGraph.image,  ).asset->url + "?w=600&h=600&fit=crop",  "metaTitle": coalesce(    seo.metaTitle,    title,    name,    *[_id == 'homepage'][0].seo.metaTitle,  ),  "metaDescription": coalesce(    seo.metaDescription,    pt::text(summary),    *[_id == 'homepage'][0].seo.metaDescription,  ) }
+export type DOCUMENT_SEO_DATA_BY_IDResult =
+  | {
+      ogTitle: null | string;
+      ogDescription: null | string;
+      ogImage: null | string;
+      metaTitle: null | string;
+      metaDescription: null | string;
+    }
+  | {
+      ogTitle: string | null;
+      ogDescription: string | null;
+      ogImage: string | null;
+      metaTitle: string | null;
+      metaDescription: string | null;
+    }
+  | null;
+// Variable: DOCUMENT_SEO_DATA_BY_SLUG
+// Query: *[_type == $documentType && slug.current == $slug][0] {   "ogTitle": coalesce(    seo.openGraph.title,    seo.metaTitle,    title,    name,    *[_id == 'homepage'][0].seo.openGraph.title,  ),  "ogDescription": coalesce(    seo.openGraph.description,    seo.metaDescription,    pt::text(summary),    *[_id == 'homepage'][0].seo.openGraph.description,  ),  "ogImage": coalesce(    seo.openGraph.image,    mainImage,    *[_id == 'homepage'][0].seo.openGraph.image,  ).asset->url + "?w=600&h=600&fit=crop",  "metaTitle": coalesce(    seo.metaTitle,    title,    name,    *[_id == 'homepage'][0].seo.metaTitle,  ),  "metaDescription": coalesce(    seo.metaDescription,    pt::text(summary),    *[_id == 'homepage'][0].seo.metaDescription,  ) }
+export type DOCUMENT_SEO_DATA_BY_SLUGResult =
+  | {
+      ogTitle: null | string;
+      ogDescription: null | string;
+      ogImage: null | string;
+      metaTitle: null | string;
+      metaDescription: null | string;
+    }
+  | {
+      ogTitle: string | null;
+      ogDescription: string | null;
+      ogImage: string | null;
+      metaTitle: string | null;
+      metaDescription: string | null;
+    }
+  | null;
 
 // Query TypeMap
 import '@sanity/client';
@@ -708,5 +852,7 @@ declare module '@sanity/client' {
     '\n  *[_type == "location" && type == "country"] {\n    _id,\n    _rev,\n    _type,\n    _createdAt,\n    _updatedAt,\n    name,\n    nameLocalised,\n    type,\n    emoji,\n    countryCode,\n    "slug": slug.current,\n  }\n': COUNTRY_LIST_QUERYResult;
     '\n  *[_type == "location" && type == "country"].slug.current\n': COUNTRY_SLUG_QUERYResult;
     '\n  *[_type == "location" && type == "country" && slug.current == $slug][0] {\n    _id,\n    _rev,\n    _type,\n    _createdAt,\n    _updatedAt,\n    name,\n    nameLocalised,\n    type,\n    emoji,\n    "slug": slug.current,\n    type == \'country\' => {\n      countryCode,\n    },\n    "posts": *[_type=="post" && references(^._id)]|order(_createdAt desc) {\n      _id,\n      _rev,\n      _type,\n      _createdAt,\n      _updatedAt,\n      locations[]-> {\n  _id,\n  _rev,\n  _type,\n  _createdAt,\n  _updatedAt,\n  name,\n  nameLocalised,\n  type,\n  emoji,\n  "slug": slug.current,\n  type == \'country\' => {\n    countryCode,\n  },\n},\n      mainImage {\n    ...,\n    asset -> {\n      ...,\n      "alt": altText,\n      metadata {\n        lqip,\n        dimensions\n      },\n    },\n  }\n,\n      "slug": slug.current,\n      title,\n    },\n  }\n': COUNTRY_BY_SLUG_QUERYResult;
+    '\n  *[_id == $id][0] { \n  "ogTitle": coalesce(\n    seo.openGraph.title,\n    seo.metaTitle,\n    title,\n    name,\n    *[_id == \'homepage\'][0].seo.openGraph.title,\n  ),\n  "ogDescription": coalesce(\n    seo.openGraph.description,\n    seo.metaDescription,\n    pt::text(summary),\n    *[_id == \'homepage\'][0].seo.openGraph.description,\n  ),\n  "ogImage": coalesce(\n    seo.openGraph.image,\n    mainImage,\n    *[_id == \'homepage\'][0].seo.openGraph.image,\n  ).asset->url + "?w=600&h=600&fit=crop",\n  "metaTitle": coalesce(\n    seo.metaTitle,\n    title,\n    name,\n    *[_id == \'homepage\'][0].seo.metaTitle,\n  ),\n  "metaDescription": coalesce(\n    seo.metaDescription,\n    pt::text(summary),\n    *[_id == \'homepage\'][0].seo.metaDescription,\n  )\n }\n': DOCUMENT_SEO_DATA_BY_IDResult;
+    '\n  *[_type == $documentType && slug.current == $slug][0] { \n  "ogTitle": coalesce(\n    seo.openGraph.title,\n    seo.metaTitle,\n    title,\n    name,\n    *[_id == \'homepage\'][0].seo.openGraph.title,\n  ),\n  "ogDescription": coalesce(\n    seo.openGraph.description,\n    seo.metaDescription,\n    pt::text(summary),\n    *[_id == \'homepage\'][0].seo.openGraph.description,\n  ),\n  "ogImage": coalesce(\n    seo.openGraph.image,\n    mainImage,\n    *[_id == \'homepage\'][0].seo.openGraph.image,\n  ).asset->url + "?w=600&h=600&fit=crop",\n  "metaTitle": coalesce(\n    seo.metaTitle,\n    title,\n    name,\n    *[_id == \'homepage\'][0].seo.metaTitle,\n  ),\n  "metaDescription": coalesce(\n    seo.metaDescription,\n    pt::text(summary),\n    *[_id == \'homepage\'][0].seo.metaDescription,\n  )\n }\n': DOCUMENT_SEO_DATA_BY_SLUGResult;
   }
 }
