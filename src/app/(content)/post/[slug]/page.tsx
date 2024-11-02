@@ -1,3 +1,4 @@
+import { Metadata } from 'next';
 import { PortableText } from 'next-sanity';
 import { notFound } from 'next/navigation';
 import Credits from '~/components/ui/common/credits';

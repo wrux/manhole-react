@@ -1,11 +1,11 @@
-import { HouseSimple } from '@phosphor-icons/react';
+import { Image } from '@phosphor-icons/react';
 import { defineField, defineType } from 'sanity';
 
 export default defineType({
-  name: 'homepage',
+  name: 'gallery',
   type: 'document',
-  icon: HouseSimple,
-  title: 'Homepage',
+  icon: Image,
+  title: 'Gallery',
   fields: [
     defineField({
       name: 'title',
@@ -21,7 +21,7 @@ export default defineType({
   ],
   preview: {
     prepare: () => ({
-      title: 'Homepage',
+      title: 'Gallery',
     }),
   },
 });

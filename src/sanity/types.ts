@@ -68,6 +68,16 @@ export type Geopoint = {
   alt?: number;
 };
 
+export type Settings = {
+  _id: string;
+  _type: 'settings';
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  Name?: string;
+  seo?: SeoMetaFields;
+};
+
 export type Post = {
   _id: string;
   _type: 'post';
@@ -164,6 +174,7 @@ export type Homepage = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
+  title?: string;
   seo?: SeoMetaFields;
 };
 
@@ -310,6 +321,7 @@ export type AllSanitySchemaTypes =
   | SanityImageDimensions
   | SanityFileAsset
   | Geopoint
+  | Settings
   | Post
   | Person
   | Location
@@ -793,53 +805,39 @@ export type COUNTRY_BY_SLUG_QUERYResult =
     }
   | null;
 // Variable: DOCUMENT_SEO_DATA_BY_ID
-// Query: *[_id == $id][0] {   "ogTitle": coalesce(    seo.openGraph.title,    seo.metaTitle,    title,    name  ),  "ogDescription": coalesce(    seo.openGraph.description,    seo.metaDescription,    pt::text(summary)  ),  "ogImage": coalesce(    seo.openGraph.image,    mainImage,  ).asset->url + "?w=600&h=600&fit=crop",  "metaTitle": coalesce(    seo.metaTitle,    title,    name  ),  "metaDescription": coalesce(    seo.metaDescription,    pt::text(summary)  ) }
+// Query: *[_id == $id][0] {   "ogTitle": coalesce(    seo.openGraph.title,    seo.metaTitle,    title,    name,    *[_id == 'homepage'][0].seo.openGraph.title,  ),  "ogDescription": coalesce(    seo.openGraph.description,    seo.metaDescription,    pt::text(summary),    *[_id == 'homepage'][0].seo.openGraph.description,  ),  "ogImage": coalesce(    seo.openGraph.image,    mainImage,    *[_id == 'homepage'][0].seo.openGraph.image,  ).asset->url + "?w=600&h=600&fit=crop",  "metaTitle": coalesce(    seo.metaTitle,    title,    name,    *[_id == 'homepage'][0].seo.metaTitle,  ),  "metaDescription": coalesce(    seo.metaDescription,    pt::text(summary),    *[_id == 'homepage'][0].seo.metaDescription,  ) }
 export type DOCUMENT_SEO_DATA_BY_IDResult =
-  | {
-      ogTitle: string | null;
-      ogDescription: string;
-      ogImage: string | null;
-      metaTitle: string | null;
-      metaDescription: string;
-    }
-  | {
-      ogTitle: null;
-      ogDescription: null | string;
-      ogImage: null;
-      metaTitle: null;
-      metaDescription: null | string;
-    }
   | {
       ogTitle: null | string;
       ogDescription: null | string;
-      ogImage: null;
+      ogImage: null | string;
       metaTitle: null | string;
       metaDescription: null | string;
+    }
+  | {
+      ogTitle: string | null;
+      ogDescription: string | null;
+      ogImage: string | null;
+      metaTitle: string | null;
+      metaDescription: string | null;
     }
   | null;
 // Variable: DOCUMENT_SEO_DATA_BY_SLUG
-// Query: *[_type == $documentType && slug.current == $slug][0] {   "ogTitle": coalesce(    seo.openGraph.title,    seo.metaTitle,    title,    name  ),  "ogDescription": coalesce(    seo.openGraph.description,    seo.metaDescription,    pt::text(summary)  ),  "ogImage": coalesce(    seo.openGraph.image,    mainImage,  ).asset->url + "?w=600&h=600&fit=crop",  "metaTitle": coalesce(    seo.metaTitle,    title,    name  ),  "metaDescription": coalesce(    seo.metaDescription,    pt::text(summary)  ) }
+// Query: *[_type == $documentType && slug.current == $slug][0] {   "ogTitle": coalesce(    seo.openGraph.title,    seo.metaTitle,    title,    name,    *[_id == 'homepage'][0].seo.openGraph.title,  ),  "ogDescription": coalesce(    seo.openGraph.description,    seo.metaDescription,    pt::text(summary),    *[_id == 'homepage'][0].seo.openGraph.description,  ),  "ogImage": coalesce(    seo.openGraph.image,    mainImage,    *[_id == 'homepage'][0].seo.openGraph.image,  ).asset->url + "?w=600&h=600&fit=crop",  "metaTitle": coalesce(    seo.metaTitle,    title,    name,    *[_id == 'homepage'][0].seo.metaTitle,  ),  "metaDescription": coalesce(    seo.metaDescription,    pt::text(summary),    *[_id == 'homepage'][0].seo.metaDescription,  ) }
 export type DOCUMENT_SEO_DATA_BY_SLUGResult =
-  | {
-      ogTitle: string | null;
-      ogDescription: string;
-      ogImage: string | null;
-      metaTitle: string | null;
-      metaDescription: string;
-    }
-  | {
-      ogTitle: null;
-      ogDescription: null | string;
-      ogImage: null;
-      metaTitle: null;
-      metaDescription: null | string;
-    }
   | {
       ogTitle: null | string;
       ogDescription: null | string;
-      ogImage: null;
+      ogImage: null | string;
       metaTitle: null | string;
       metaDescription: null | string;
+    }
+  | {
+      ogTitle: string | null;
+      ogDescription: string | null;
+      ogImage: string | null;
+      metaTitle: string | null;
+      metaDescription: string | null;
     }
   | null;
 
@@ -854,7 +852,7 @@ declare module '@sanity/client' {
     '\n  *[_type == "location" && type == "country"] {\n    _id,\n    _rev,\n    _type,\n    _createdAt,\n    _updatedAt,\n    name,\n    nameLocalised,\n    type,\n    emoji,\n    countryCode,\n    "slug": slug.current,\n  }\n': COUNTRY_LIST_QUERYResult;
     '\n  *[_type == "location" && type == "country"].slug.current\n': COUNTRY_SLUG_QUERYResult;
     '\n  *[_type == "location" && type == "country" && slug.current == $slug][0] {\n    _id,\n    _rev,\n    _type,\n    _createdAt,\n    _updatedAt,\n    name,\n    nameLocalised,\n    type,\n    emoji,\n    "slug": slug.current,\n    type == \'country\' => {\n      countryCode,\n    },\n    "posts": *[_type=="post" && references(^._id)]|order(_createdAt desc) {\n      _id,\n      _rev,\n      _type,\n      _createdAt,\n      _updatedAt,\n      locations[]-> {\n  _id,\n  _rev,\n  _type,\n  _createdAt,\n  _updatedAt,\n  name,\n  nameLocalised,\n  type,\n  emoji,\n  "slug": slug.current,\n  type == \'country\' => {\n    countryCode,\n  },\n},\n      mainImage {\n    ...,\n    asset -> {\n      ...,\n      "alt": altText,\n      metadata {\n        lqip,\n        dimensions\n      },\n    },\n  }\n,\n      "slug": slug.current,\n      title,\n    },\n  }\n': COUNTRY_BY_SLUG_QUERYResult;
-    '\n  *[_id == $id][0] { \n  "ogTitle": coalesce(\n    seo.openGraph.title,\n    seo.metaTitle,\n    title,\n    name\n  ),\n  "ogDescription": coalesce(\n    seo.openGraph.description,\n    seo.metaDescription,\n    pt::text(summary)\n  ),\n  "ogImage": coalesce(\n    seo.openGraph.image,\n    mainImage,\n  ).asset->url + "?w=600&h=600&fit=crop",\n  "metaTitle": coalesce(\n    seo.metaTitle,\n    title,\n    name\n  ),\n  "metaDescription": coalesce(\n    seo.metaDescription,\n    pt::text(summary)\n  )\n }\n': DOCUMENT_SEO_DATA_BY_IDResult;
-    '\n  *[_type == $documentType && slug.current == $slug][0] { \n  "ogTitle": coalesce(\n    seo.openGraph.title,\n    seo.metaTitle,\n    title,\n    name\n  ),\n  "ogDescription": coalesce(\n    seo.openGraph.description,\n    seo.metaDescription,\n    pt::text(summary)\n  ),\n  "ogImage": coalesce(\n    seo.openGraph.image,\n    mainImage,\n  ).asset->url + "?w=600&h=600&fit=crop",\n  "metaTitle": coalesce(\n    seo.metaTitle,\n    title,\n    name\n  ),\n  "metaDescription": coalesce(\n    seo.metaDescription,\n    pt::text(summary)\n  )\n }\n': DOCUMENT_SEO_DATA_BY_SLUGResult;
+    '\n  *[_id == $id][0] { \n  "ogTitle": coalesce(\n    seo.openGraph.title,\n    seo.metaTitle,\n    title,\n    name,\n    *[_id == \'homepage\'][0].seo.openGraph.title,\n  ),\n  "ogDescription": coalesce(\n    seo.openGraph.description,\n    seo.metaDescription,\n    pt::text(summary),\n    *[_id == \'homepage\'][0].seo.openGraph.description,\n  ),\n  "ogImage": coalesce(\n    seo.openGraph.image,\n    mainImage,\n    *[_id == \'homepage\'][0].seo.openGraph.image,\n  ).asset->url + "?w=600&h=600&fit=crop",\n  "metaTitle": coalesce(\n    seo.metaTitle,\n    title,\n    name,\n    *[_id == \'homepage\'][0].seo.metaTitle,\n  ),\n  "metaDescription": coalesce(\n    seo.metaDescription,\n    pt::text(summary),\n    *[_id == \'homepage\'][0].seo.metaDescription,\n  )\n }\n': DOCUMENT_SEO_DATA_BY_IDResult;
+    '\n  *[_type == $documentType && slug.current == $slug][0] { \n  "ogTitle": coalesce(\n    seo.openGraph.title,\n    seo.metaTitle,\n    title,\n    name,\n    *[_id == \'homepage\'][0].seo.openGraph.title,\n  ),\n  "ogDescription": coalesce(\n    seo.openGraph.description,\n    seo.metaDescription,\n    pt::text(summary),\n    *[_id == \'homepage\'][0].seo.openGraph.description,\n  ),\n  "ogImage": coalesce(\n    seo.openGraph.image,\n    mainImage,\n    *[_id == \'homepage\'][0].seo.openGraph.image,\n  ).asset->url + "?w=600&h=600&fit=crop",\n  "metaTitle": coalesce(\n    seo.metaTitle,\n    title,\n    name,\n    *[_id == \'homepage\'][0].seo.metaTitle,\n  ),\n  "metaDescription": coalesce(\n    seo.metaDescription,\n    pt::text(summary),\n    *[_id == \'homepage\'][0].seo.metaDescription,\n  )\n }\n': DOCUMENT_SEO_DATA_BY_SLUGResult;
   }
 }

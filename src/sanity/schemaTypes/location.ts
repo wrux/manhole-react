@@ -65,6 +65,12 @@ export default defineType({
       group: 'general',
       hidden: ({ parent }) => parent?.type !== 'country',
     }),
+    defineField({
+      title: 'Seo',
+      name: 'seo',
+      type: 'seoMetaFields',
+      group: 'metadata',
+    }),
   ],
   preview: {
     select: {

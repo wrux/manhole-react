@@ -1,3 +1,4 @@
+import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import LogoTitle from '~/components/ui/common/logo-title';
 import PostTeaser from '~/components/ui/common/post-teaser';
@@ -7,15 +8,28 @@ import {
   COUNTRY_BY_SLUG_QUERY,
   COUNTRY_SLUG_QUERY,
 } from '~/sanity/lib/queries';
+import { getSeoData, prepareMetaData } from '~/sanity/lib/seo';
 
 export async function generateStaticParams() {
   const countries = await client.fetch(COUNTRY_SLUG_QUERY);
   return countries.map((slug) => ({ slug }));
 }
 
-export default async function PostPage(props: {
+type Props = {
   params: Promise<{ slug: string }>;
-}) {
+};
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params;
+  const post = await getSeoData({
+    slug,
+    documentType: 'post',
+    reducer: prepareMetaData,
+  });
+  return post;
+}
+
+export default async function PostPage(props: Props) {
   const params = await props.params;
 
   const { slug } = params;
@@ -26,8 +40,8 @@ export default async function PostPage(props: {
   }
 
   return (
-    <article className="my-space container">
-      <header className="space-y-space mb-space">
+    <article className="container my-space">
+      <header className="mb-space space-y-space">
         <LogoTitle title={country?.name || ''} />
       </header>
 

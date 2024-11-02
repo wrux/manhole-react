@@ -1,27 +1,28 @@
-import { HouseSimple } from '@phosphor-icons/react';
+import { Gear } from '@phosphor-icons/react';
 import { defineField, defineType } from 'sanity';
 
 export default defineType({
-  name: 'homepage',
+  name: 'settings',
   type: 'document',
-  icon: HouseSimple,
-  title: 'Homepage',
+  icon: Gear,
+  title: 'Site Settings',
   fields: [
     defineField({
-      name: 'title',
+      name: 'Name',
       type: 'string',
-      title: 'Title',
+      title: 'Name',
       validation: (rule) => rule.required(),
     }),
     defineField({
-      title: 'Seo',
+      title: 'Default Seo',
       name: 'seo',
       type: 'seoMetaFields',
+      validation: (rule) => rule.required(),
     }),
   ],
   preview: {
     prepare: () => ({
-      title: 'Homepage',
+      title: 'Site Settings',
     }),
   },
 });
