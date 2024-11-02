@@ -66,7 +66,7 @@ export async function getSeoData({
     ? await client.fetch(DOCUMENT_SEO_DATA_BY_ID, { id })
     : await client.fetch(DOCUMENT_SEO_DATA_BY_SLUG, { documentType, slug });
   if (!document) {
-    return null;
+    return {};
   }
   return reducer(document);
 }

@@ -8,10 +8,9 @@ export const size = openGraphSize;
 
 export const contentType = 'image/png';
 
-export default async function Image({ params }: { params: { slug: string } }) {
+export default async function Image() {
   const OGData = await getSeoData({
-    slug: params.slug,
-    documentType: 'post',
+    id: 'homepage',
     reducer: prepareOGData,
   });
 

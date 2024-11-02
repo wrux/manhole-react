@@ -157,11 +157,12 @@ export default defineType({
     //   ],
     //   group: 'general',
     // }),
-    {
+    defineField({
       title: 'Seo',
       name: 'seo',
       type: 'seoMetaFields',
-    },
+      group: 'metadata',
+    }),
   ],
   preview: {
     select: {

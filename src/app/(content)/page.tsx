@@ -1,3 +1,4 @@
+import { Metadata } from 'next';
 import Link from 'next/link';
 import { Button } from '~/components/ui/button';
 import { Card, CardContent } from '~/components/ui/card';
@@ -7,6 +8,15 @@ import { typographyVariants } from '~/components/ui/typography';
 import { cn } from '~/lib/utils';
 import { client } from '~/sanity/lib/client';
 import { POST_TEASER_QUERY } from '~/sanity/lib/queries';
+import { getSeoData, prepareMetaData } from '~/sanity/lib/seo';
+
+export async function generateMetadata(): Promise<Metadata> {
+  const post = await getSeoData({
+    id: 'homepage',
+    reducer: prepareMetaData,
+  });
+  return post;
+}
 
 export default async function Home() {
   const posts = await client.fetch(POST_TEASER_QUERY, {
@@ -14,10 +24,10 @@ export default async function Home() {
   });
 
   return (
-    <article className="my-space container">
+    <article className="container my-space">
       <TileGrid>
         <Card className="col-span-1 sm:col-span-2 xl:col-span-1">
-          <CardContent className="p-space flex h-full flex-col gap-3">
+          <CardContent className="flex h-full flex-col gap-3 p-space">
             <h1 className="flex flex-col justify-start gap-4">
               <div
                 className="circle text-5xl"
@@ -59,7 +69,7 @@ export default async function Home() {
         ))}
 
         <Card className="col-span-full xl:col-span-1">
-          <CardContent className="p-space flex h-full flex-col items-center justify-center gap-3 text-center">
+          <CardContent className="flex h-full flex-col items-center justify-center gap-3 p-space text-center">
             <div
               className="circle text-3xl"
               aria-hidden="true"

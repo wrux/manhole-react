@@ -158,6 +158,15 @@ export type Slug = {
   source?: string;
 };
 
+export type Homepage = {
+  _id: string;
+  _type: 'homepage';
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  seo?: SeoMetaFields;
+};
+
 export type MetaTag = {
   _type: 'metaTag';
   metaAttributes?: Array<
@@ -305,6 +314,7 @@ export type AllSanitySchemaTypes =
   | Person
   | Location
   | Slug
+  | Homepage
   | MetaTag
   | MetaAttribute
   | SeoMetaFields
